@@ -1,0 +1,50 @@
+(1) Getna in English
+(2) Getna em Portugês
+
+
+
+(1) Getna - Generator Etna 
+=====
+
+Getna is RubyOnRails Generator 
+
+
+Example
+=======
+Use in your Ruby Aplications
+
+script/generate getna [layout_name] [option 1] [option 2] [option 3]...
+
+
+[layout_name]'s
+__________________
+> blue_stand
+> green_stand
+> red_stand
+> {color}_stand
+
+> cool
+> darkness
+> style
+
+=
+[option]'s
+__________________
+== language
+pt-BR
+en-US
+
+== input
+sql
+database
+
+== adapter (if database input option)
+
+
+
+
+
+
+
+
+Copyright (c) 2008 Luiz Arão A. Carvalho, released under the MIT license
