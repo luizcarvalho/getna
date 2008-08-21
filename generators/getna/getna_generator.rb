@@ -59,7 +59,7 @@ class GetnaGenerator < Rails::Generator::NamedBase
         m.template("view_index.html.erb","app/views/#{name[:plural]}/index.html.erb",:assigns=>{:attributes=>attrs,:object_name=>name})    
         m.template("view_show.html.erb","app/views/#{name[:plural]}/show.html.erb",:assigns=>{:attributes=>attrs,:object_name=>name})               
         m.template("view_new.html.erb","app/views/#{name[:plural]}/new.html.erb",:assigns=>{:attributes=>attrs,:object_name=>name})         
-        
+        m.route_resources name[:plural]
       end
 
       
