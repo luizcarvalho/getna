@@ -29,11 +29,11 @@ class <%= object_name[:class_plural] %>Controller < ApplicationController
   # GET /<%= object_name[:plural]  %>/new
   # GET /<%= object_name[:plural]  %>/new.xml
   def new
-    @<%= object_name[:plural]  %> = <%= object_name[:class] %>.new
+    @<%= object_name[:single]  %> = <%= object_name[:class] %>.new
 
     respond_to do |format|
       format.html # new.html.erb
-      format.xml  { render :xml => @<%= object_name[:plural] %> }
+      format.xml  { render :xml => @<%= object_name[:single] %> }
     end
   end
 
@@ -67,8 +67,8 @@ class <%= object_name[:class_plural] %>Controller < ApplicationController
     respond_to do |format|
       if @<%= object_name[:single]  %>.update_attributes(params[:<%= object_name[:single]  %>])
         flash[:notice] = '<%= object_name[:plural]  %> was successfully updated.'
-        format.html { redirect_to(@<%= object_name[:sigle]  %>) }
-        }
+        format.html { redirect_to(@<%= object_name[:single]  %>) }
+        
         format.xml  { head :ok }
       else
         format.html { render :action => "edit" }

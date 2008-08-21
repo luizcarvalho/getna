@@ -1,10 +1,13 @@
+<h1> <%= object_name[:singular] %></h1>
+<p>
 <% for attribute in attributes -%>
 <p>
-  <b><%= attribute.column.human_name %>:</b>
-  <%%=h @<%= singular_name %>.<%= attribute.name %> %>
+  <b><%= attribute[:name] %>:</b>
+  <%%=h @<%= object_name[:single]  %>.<%= attribute[:name] %> %>
 </p>
 
 <% end -%>
 
-<%%= link_to 'Edit', edit_<%= singular_name %>_path(@<%= singular_name %>) %> |
-<%%= link_to 'Back', <%= plural_name %>_path %>
+<%%= link_to 'Alterar', edit_<%= object_name[:single] %>_path(@<%= object_name[:single] %>) %> |
+<%%= link_to 'Voltar', <%=  object_name[:plural] %>_path %>
+</p>

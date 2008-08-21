@@ -33,26 +33,33 @@ class GetnaGenerator < Rails::Generator::NamedBase
     record do |m|
       # Controller, helper, views, and test directories.
       #{} $stdout.print "Class Path #{class_path}\n"
- name ={}
-
+      name = Hash.new
           #------------------------------------------------------------- OK ----------------------------------------------------------------------
      # m.file("config/getna_config.yml","config/getna_config.yml")
       @geobject.table_names.each do |table_name|
+        name = Hash.new
         name[:single] = table_name.singularize
         name[:plural] = table_name
         name[:class] = table_name.singularize.camelize
         name[:class_plural] = table_name.camelize
+        attrs = @geobject.to_view(table_name)
         
         
         #CREATE Controllers
         m.template("controller.rb","app/controllers/#{name[:plural]}_controller.rb",:assigns=>{:object_name=>name})         
+
         #CREATE Models
         m.template("model.rb","app/models/#{name[:single]}.rb",:assigns=>{:object_name=>name})         
        #Create Views Directory
         m.directory("app/views/#{name[:plural]}")
+        
         #Create  Views Files
-        m.template("view_new.html.erb","app/views/#{name[:plural]}/new.html.erb",:assigns=>{:attributes=>@geobject.to_view(table_name),:object_name=>name})         
-     
+
+        m.template("view_edit.html.erb","app/views/#{name[:plural]}/edit.html.erb",:assigns=>{:attributes=>attrs,:object_name=>name})     
+        m.template("view_index.html.erb","app/views/#{name[:plural]}/index.html.erb",:assigns=>{:attributes=>attrs,:object_name=>name})    
+        m.template("view_show.html.erb","app/views/#{name[:plural]}/show.html.erb",:assigns=>{:attributes=>attrs,:object_name=>name})               
+        m.template("view_new.html.erb","app/views/#{name[:plural]}/new.html.erb",:assigns=>{:attributes=>attrs,:object_name=>name})         
+        
       end
 
       

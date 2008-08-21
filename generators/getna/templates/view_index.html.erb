@@ -1,24 +1,24 @@
-<h1>Listing <%= plural_name %></h1>
+<h1>Listando <%= object_name[:plural] %></h1>
 
 <table>
   <tr>
 <% for attribute in attributes -%>
-    <th><%= attribute.column.human_name %></th>
+    <th><%= attribute[:name] %></th>
 <% end -%>
   </tr>
 
-<%% for <%= singular_name %> in @<%= plural_name %> %>
+<%% for <%= object_name[:single] %> in @<%= object_name[:plural] %> %>
   <tr>
 <% for attribute in attributes -%>
-    <td><%%=h <%= singular_name %>.<%= attribute.name %> %></td>
+    <td><%%=h <%= object_name[:single] %>.<%= attribute[:name] %> %></td>
 <% end -%>
-    <td><%%= link_to 'Show', <%= singular_name %> %></td>
-    <td><%%= link_to 'Edit', edit_<%= singular_name %>_path(<%= singular_name %>) %></td>
-    <td><%%= link_to 'Destroy', <%= singular_name %>, :confirm => 'Are you sure?', :method => :delete %></td>
+    <td><%%= link_to 'Mostrar', <%= object_name[:single] %> %></td>
+    <td><%%= link_to 'Alterar', edit_<%= object_name[:single] %>_path(<%= object_name[:single] %>) %></td>
+    <td><%%= link_to 'Excluir', <%= object_name[:single] %>, :confirm => 'Tem Certeza?', :method => :delete %></td>
   </tr>
 <%% end %>
 </table>
 
 <br />
 
-<%%= link_to 'New <%= singular_name %>', new_<%= singular_name %>_path %>
+<%%= link_to 'Novo <%= object_name[:single] %>', new_<%= object_name[:single] %>_path %>

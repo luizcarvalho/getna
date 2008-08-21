@@ -1,2 +1,2 @@
-class <%= name[:class] %> < ActiveRecord::Base
+class <%= object_name[:class] %> < ActiveRecord::Base
 end

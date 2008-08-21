@@ -19,20 +19,20 @@ module Getna
        @table_names = @con.tables
        @table_names.delete("schema_migrations")  
 
-      @con.active? ? $stdout.print("\n\nData Loaded!\n\n") : $stdout.print("\n\n Load Failed! \n No Connected! \n\n")
+        @con.active? ? $stdout.print("\n\nData Loaded!\n\n") : $stdout.print("\n\n Load Failed! \n No Connected! \n\n")
 
     end
 
     #[{:type=>"text_field", :name=>"id"}, {:type=>"text_field", :name=>"nome"}, {:type=>"text_field", :name=>"endereco"}, {:type=>"text_field", :name=>"grupo_id"}, {:type=>"date_select", :name=>"created_at"}, {:type=>"date_select", :name=>"updated_at"}]
-   
+    
     def to_view(table_name)
       attr_view = []
-      attrs = get_attributes(table_name)  
+      exceptions = ["id","created_at","updated_at"]
       
-          attrs.each do |att| 
-             attr_view.push({:name =>att.name,:type=>type_for_tag(att.type.to_s)})
-          end
-     
+      attrs = get_attributes(table_name)        
+      attrs.each do |att| 
+        attr_view.push({:name =>att.name,:type=>type_for_tag(att.type.to_s)}) if !exceptions.include?(att.name)  
+      end     
       attr_view
     end
        
