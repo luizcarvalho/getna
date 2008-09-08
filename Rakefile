@@ -14,9 +14,11 @@ end
 
 desc 'Generate documentation for the getna plugin.'
 Rake::RDocTask.new(:rdoc) do |rdoc|
+  $stdout.print('Gerando Documentação GEtna.../n/n')
   rdoc.rdoc_dir = 'rdoc'
   rdoc.title    = 'Getna'
   rdoc.options << '--line-numbers' << '--inline-source'
   rdoc.rdoc_files.include('README')
+    rdoc.rdoc_files.include('generators/getna/getna_generator.rb')
   rdoc.rdoc_files.include('lib/**/*.rb')
 end

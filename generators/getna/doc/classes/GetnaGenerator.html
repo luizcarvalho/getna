@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <title>Class: GetnaGenerator</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+  <meta http-equiv="Content-Script-Type" content="text/javascript" />
+  <link rel="stylesheet" href=".././rdoc-style.css" type="text/css" media="screen" />
+  <script type="text/javascript">
+  // <![CDATA[
+
+  function popupCode( url ) {
+    window.open(url, "Code", "resizable=yes,scrollbars=yes,toolbar=no,status=no,height=150,width=400")
+  }
+
+  function toggleCode( id ) {
+    if ( document.getElementById )
+      elem = document.getElementById( id );
+    else if ( document.all )
+      elem = eval( "document.all." + id );
+    else
+      return false;
+
+    elemStyle = elem.style;
+    
+    if ( elemStyle.display != "block" ) {
+      elemStyle.display = "block"
+    } else {
+      elemStyle.display = "none"
+    }
+
+    return true;
+  }
+  
+  // Make codeblocks hidden by default
+  document.writeln( "<style type=\"text/css\">div.method-source-code { display: none }</style>" )
+  
+  // ]]>
+  </script>
+
+</head>
+<body>
+
+
+
+    <div id="classHeader">
+        <table class="header-table">
+        <tr class="top-aligned-row">
+          <td><strong>Class</strong></td>
+          <td class="class-name-in-header">GetnaGenerator</td>
+        </tr>
+        <tr class="top-aligned-row">
+            <td><strong>In:</strong></td>
+            <td>
+                <a href="../files/getna_generator_rb.html">
+                getna_generator.rb
+                </a>
+        <br />
+            </td>
+        </tr>
+
+        <tr class="top-aligned-row">
+            <td><strong>Parent:</strong></td>
+            <td>
+                Rails::Generator::NamedBase
+            </td>
+        </tr>
+        </table>
+    </div>
+  <!-- banner header -->
+
+  <div id="bodyContent">
+
+
+
+  <div id="contextContent">
+
+
+
+   </div>
+
+    <div id="method-list">
+      <h3 class="section-bar">Methods</h3>
+
+      <div class="name-list">
+      <a href="#M000007">manifest</a>&nbsp;&nbsp;
+      <a href="#M000006">new</a>&nbsp;&nbsp;
+      </div>
+    </div>
+
+  </div>
+
+
+    <!-- if includes -->
+
+    <div id="section">
+
+
+
+
+
+      
+
+
+    <!-- if method_list -->
+    <div id="methods">
+      <h3 class="section-bar">Public Class methods</h3>
+
+      <div id="method-M000006" class="method-detail">
+        <a name="M000006"></a>
+
+        <div class="method-heading">
+          <a href="GetnaGenerator.src/M000006.html" target="Code" class="method-signature"
+            onclick="popupCode('GetnaGenerator.src/M000006.html');return false;">
+          <span class="method-name">new</span><span class="method-args">(runtime_args, runtime_options = {})</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <pre>
+  Classe GetnaGenerator é responsável pelo processo de coleta de dados via linha de comando
+   Apartir de dados encontrados em uma base de dados como Mysql, PostgreSQL e SQLite,
+ gera-se então toda a estrutura de uma aplicação Rails como um Scaffold, mas em um unico commado.
+   Das tabelas são buscados nome das tabelas(para classes), nome dos campos (para Atributos) e seus
+</pre>
+<p>
+atributos(para validações) e ainda chaves estrangeiras (para
+relacionamentos),
+</p>
+<pre>
+ == Requisitos
+  Para que o gerador Funcione corretamente é necessário que o banco esteja totalmente padronizado
+</pre>
+<p>
+de acordo com o Rails.
+</p>
+<pre>
+  *  Teblas no Plural
+  *  Nomes compostos de mais de uma palavra devem ser separados com underline (_), devem estar ordenadas
+</pre>
+<p>
+Alfabeticamente com a ultma palavra no plural EX:
+</p>
+<pre>
+     1. CERTO: grupo_usuarios
+     2. ERRADO: grupos_usuario - Plural em uma palavra que não é a ultima
+     3. ERRADO: usuario_grupo - Ordem não alfabetica e sem plural na ultima palavra
+     4. ERRADO: usuarios_grupo - Ordem não alfabetica e erro pluralização de palavras
+     5. ERRADO: usuarios_grupo - Ordem não alfabetica e erro pluralização de palavras
+     6. ERRADO: grupo-usuarios - Os Nomes devem ser separados por Underline
+     Entre Varias outras meneiras de nomeclatura errada, então sempre use a primeira.
+</pre>
+        </div>
+      </div>
+
+      <h3 class="section-bar">Public Instance methods</h3>
+
+      <div id="method-M000007" class="method-detail">
+        <a name="M000007"></a>
+
+        <div class="method-heading">
+          <a href="GetnaGenerator.src/M000007.html" target="Code" class="method-signature"
+            onclick="popupCode('GetnaGenerator.src/M000007.html');return false;">
+          <span class="method-name">manifest</span><span class="method-args">()</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+        </div>
+      </div>
+
+
+    </div>
+
+
+  </div>
+
+
+<div id="validator-badges">
+  <p><small><a href="http://validator.w3.org/check/referer">[Validate]</a></small></p>
+</div>
+
+</body>
+</html>

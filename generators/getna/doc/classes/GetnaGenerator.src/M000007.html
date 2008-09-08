@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html>
+<head>
+  <title>manifest (GetnaGenerator)</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+  <link rel="stylesheet" href="../.././rdoc-style.css" type="text/css" media="screen" />
+</head>
+<body class="standalone-code">
+  <pre><span class="ruby-comment cmt"># File getna_generator.rb, line 54</span>
+  <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">manifest</span>
+    <span class="ruby-identifier">record</span> <span class="ruby-keyword kw">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">m</span><span class="ruby-operator">|</span>
+      <span class="ruby-comment cmt"># Controller, helper, views, and test directories.</span>
+      <span class="ruby-comment cmt">#{} $stdout.print &quot;Class Path #{class_path}\n&quot;</span>
+      <span class="ruby-identifier">name</span> = <span class="ruby-constant">Hash</span>.<span class="ruby-identifier">new</span>
+          <span class="ruby-comment cmt">#------------------------------------------------------------- OK ----------------------------------------------------------------------</span>
+     <span class="ruby-comment cmt"># m.file(&quot;config/getna_config.yml&quot;,&quot;config/getna_config.yml&quot;)</span>
+      <span class="ruby-ivar">@geobject</span>.<span class="ruby-identifier">table_names</span>.<span class="ruby-identifier">each</span> <span class="ruby-keyword kw">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">table_name</span><span class="ruby-operator">|</span>
+        <span class="ruby-identifier">name</span> = <span class="ruby-constant">Hash</span>.<span class="ruby-identifier">new</span>
+        <span class="ruby-identifier">name</span>[<span class="ruby-identifier">:single</span>] = <span class="ruby-identifier">table_name</span>.<span class="ruby-identifier">singularize</span>
+        <span class="ruby-identifier">name</span>[<span class="ruby-identifier">:plural</span>] = <span class="ruby-identifier">table_name</span>
+        <span class="ruby-identifier">name</span>[<span class="ruby-identifier">:class</span>] = <span class="ruby-identifier">table_name</span>.<span class="ruby-identifier">singularize</span>.<span class="ruby-identifier">camelize</span>
+        <span class="ruby-identifier">name</span>[<span class="ruby-identifier">:class_plural</span>] = <span class="ruby-identifier">table_name</span>.<span class="ruby-identifier">camelize</span>
+        <span class="ruby-identifier">attrs</span> = <span class="ruby-ivar">@geobject</span>.<span class="ruby-identifier">to_view</span>(<span class="ruby-identifier">table_name</span>)
+        
+        
+        <span class="ruby-comment cmt">#CREATE Controllers</span>
+        <span class="ruby-identifier">m</span>.<span class="ruby-identifier">template</span>(<span class="ruby-value str">&quot;controller.rb&quot;</span>,<span class="ruby-node">&quot;app/controllers/#{name[:plural]}_controller.rb&quot;</span>,<span class="ruby-identifier">:assigns=</span><span class="ruby-operator">&gt;</span>{<span class="ruby-identifier">:object_name=</span><span class="ruby-operator">&gt;</span><span class="ruby-identifier">name</span>})         
+
+        <span class="ruby-comment cmt">#CREATE Models</span>
+        <span class="ruby-identifier">m</span>.<span class="ruby-identifier">template</span>(<span class="ruby-value str">&quot;model.rb&quot;</span>,<span class="ruby-node">&quot;app/models/#{name[:single]}.rb&quot;</span>,<span class="ruby-identifier">:assigns=</span><span class="ruby-operator">&gt;</span>{<span class="ruby-identifier">:object_name=</span><span class="ruby-operator">&gt;</span><span class="ruby-identifier">name</span>})         
+       <span class="ruby-comment cmt">#Create Views Directory</span>
+        <span class="ruby-identifier">m</span>.<span class="ruby-identifier">directory</span>(<span class="ruby-node">&quot;app/views/#{name[:plural]}&quot;</span>)
+        
+        <span class="ruby-comment cmt">#Create  Views Files</span>
+
+        <span class="ruby-identifier">m</span>.<span class="ruby-identifier">template</span>(<span class="ruby-value str">&quot;view_edit.html.erb&quot;</span>,<span class="ruby-node">&quot;app/views/#{name[:plural]}/edit.html.erb&quot;</span>,<span class="ruby-identifier">:assigns=</span><span class="ruby-operator">&gt;</span>{<span class="ruby-identifier">:attributes=</span><span class="ruby-operator">&gt;</span><span class="ruby-identifier">attrs</span>,<span class="ruby-identifier">:object_name=</span><span class="ruby-operator">&gt;</span><span class="ruby-identifier">name</span>})     
+        <span class="ruby-identifier">m</span>.<span class="ruby-identifier">template</span>(<span class="ruby-value str">&quot;view_index.html.erb&quot;</span>,<span class="ruby-node">&quot;app/views/#{name[:plural]}/index.html.erb&quot;</span>,<span class="ruby-identifier">:assigns=</span><span class="ruby-operator">&gt;</span>{<span class="ruby-identifier">:attributes=</span><span class="ruby-operator">&gt;</span><span class="ruby-identifier">attrs</span>,<span class="ruby-identifier">:object_name=</span><span class="ruby-operator">&gt;</span><span class="ruby-identifier">name</span>})    
+        <span class="ruby-identifier">m</span>.<span class="ruby-identifier">template</span>(<span class="ruby-value str">&quot;view_show.html.erb&quot;</span>,<span class="ruby-node">&quot;app/views/#{name[:plural]}/show.html.erb&quot;</span>,<span class="ruby-identifier">:assigns=</span><span class="ruby-operator">&gt;</span>{<span class="ruby-identifier">:attributes=</span><span class="ruby-operator">&gt;</span><span class="ruby-identifier">attrs</span>,<span class="ruby-identifier">:object_name=</span><span class="ruby-operator">&gt;</span><span class="ruby-identifier">name</span>})               
+        <span class="ruby-identifier">m</span>.<span class="ruby-identifier">template</span>(<span class="ruby-value str">&quot;view_new.html.erb&quot;</span>,<span class="ruby-node">&quot;app/views/#{name[:plural]}/new.html.erb&quot;</span>,<span class="ruby-identifier">:assigns=</span><span class="ruby-operator">&gt;</span>{<span class="ruby-identifier">:attributes=</span><span class="ruby-operator">&gt;</span><span class="ruby-identifier">attrs</span>,<span class="ruby-identifier">:object_name=</span><span class="ruby-operator">&gt;</span><span class="ruby-identifier">name</span>})         
+        <span class="ruby-identifier">m</span>.<span class="ruby-identifier">route_resources</span> <span class="ruby-identifier">name</span>[<span class="ruby-identifier">:plural</span>]
+      <span class="ruby-keyword kw">end</span>
+
+      
+<span class="ruby-comment cmt">#      m.directory(File.join('app/controllers', controller_class_path))</span>
+<span class="ruby-comment cmt">#      m.directory(File.join('app/helpers', controller_class_path))</span>
+<span class="ruby-comment cmt">#      m.directory(File.join('app/views', controller_class_path, controller_file_name))</span>
+<span class="ruby-comment cmt">#      m.directory(File.join('test/functional', controller_class_path))</span>
+<span class="ruby-comment cmt">#      m.directory(File.join('test/unit', class_path))   </span>
+  <span class="ruby-keyword kw">end</span>
+
+  <span class="ruby-keyword kw">end</span></pre>
+</body>
+</html>

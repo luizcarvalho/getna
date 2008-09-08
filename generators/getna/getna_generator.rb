@@ -1,7 +1,29 @@
 class GetnaGenerator < Rails::Generator::NamedBase
-  attr_reader   :dados,:objects,:budega
-
-  
+  #
+  #  Classe GetnaGenerator é responsável pelo processo de coleta de dados via linha de comando
+  #   Apartir de dados encontrados em uma base de dados como Mysql, PostgreSQL e SQLite,
+  # gera-se então toda a estrutura de uma aplicação Rails como um Scaffold, mas em um unico commado.
+  #   Das tabelas são buscados nome das tabelas(para classes), nome dos campos (para Atributos) e seus 
+  #atributos(para validações) e ainda chaves estrangeiras (para relacionamentos), 
+  #
+  #      
+  #      
+  #      
+  #      
+  #      
+  #      
+  #      
+  #      
+  #      
+  #      
+  #      
+  #      
+  #      
+  #      
+  #      
+  #      
+  #      
+  #
   def initialize(runtime_args, runtime_options = {})
     super
 

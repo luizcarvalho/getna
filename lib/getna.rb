@@ -18,8 +18,7 @@ module Getna
        
        @table_names = @con.tables
        @table_names.delete("schema_migrations")  
-
-        @con.active? ? $stdout.print("\n\nData Loaded!\n\n") : $stdout.print("\n\n Load Failed! \n No Connected! \n\n")
+       @con.active? ? $stdout.print("\n\nData Loaded!\n\n") : $stdout.print("\n\n Load Failed! \n No Connected! \n\n")
 
     end
 
