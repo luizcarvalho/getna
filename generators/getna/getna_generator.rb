@@ -5,59 +5,31 @@ class GetnaGenerator < Rails::Generator::NamedBase
   # gera-se então toda a estrutura de uma aplicação Rails como um Scaffold, mas em um unico commado.
   #   Das tabelas são buscados nome das tabelas(para classes), nome dos campos (para Atributos) e seus 
   #atributos(para validações) e ainda chaves estrangeiras (para relacionamentos), 
-  #
-  #      
-  #      
-  #      
-  #      
-  #      
-  #      
-  #      
-  #      
-  #      
-  #      
-  #      
-  #      
-  #      
-  #      
-  #      
-  #      
   #      
   #
   def initialize(runtime_args, runtime_options = {})
     super
-
-   @geobject = Getna::DBAdapter.new
-     #$stdout.print "ARGS"
-    # runtime_args.each { |i|  $stdout.print"#{i}\n" }
-     #$stdout.print "ARGS"
-    # runtime_options.each { |i|  $stdout.print"#{i}\n" }
-    
-    #con = ActiveRecord::Base.connection
-    #$stdout.print con.connection 
-      
-#    $stdout.print "\n\nANTES DO NEW  1\n\n"
- #   @a = Getna::DBAdapter.new({:host=>"localhost",:db=>"imput",:user=>"root",:port=>"root"})
-  #  $stdout.print "\n\nDEPOIS  DO NEW 4 \n\n"
-#    $stdout.print "A = #{@a}"
-    
-    @objects = []
-    @dados = [{:nome=>"usuario",:atributos=>[:id=>"Integer",:nome=>"String",:endereco=>"String"]}, { :nome=>"grupo",:atributos=>[:id=>"Integer",:nome=>"String",:descricao=>"String"]} ]
-    # $stdout.print "DADOS #{@dados}\n"
-   @dados.each{|obj| @objects.push(obj[:nome])}
-   # $stdout.print  "OBJECT#{@objects}\n\n"
-  
+   # Instânciamos o Objeto GEtna com as infomações do Banco de dados
+   @geobject = Getna::Base.new  
   end
 
 
   
   def manifest
     record do |m|
-      # Controller, helper, views, and test directories.
-      #{} $stdout.print "Class Path #{class_path}\n"
-      name = Hash.new
-          #------------------------------------------------------------- OK ----------------------------------------------------------------------
-     # m.file("config/getna_config.yml","config/getna_config.yml")
+
+      
+      m.directory("app/views/layouts")
+      m.template("style.css","public/stylesheets/getna.css")   
+      #
+      #Para Cada tabela do banco colocamos em nosso Hash 
+      # * Name:Singular: Nome do Tabela no Singular
+      # * Name:Plural: Nome do Tabela no Plural(Nome da Tabela)
+      # * Name:Class: Nome da Tabela no Singular e "Camelizado"
+      # * Name:Class Plural: recebe o Nome da Tabela "Camelizado"
+      # e Attrs: Recebe os Atributos daquela tabela transformados em Atributos 
+      # de de View como : String = Text Field, Text = Text Area
+      #
       @geobject.table_names.each do |table_name|
         name = Hash.new
         name[:single] = table_name.singularize
@@ -67,32 +39,50 @@ class GetnaGenerator < Rails::Generator::NamedBase
         attrs = @geobject.to_view(table_name)
         
         
-        #CREATE Controllers
+        # ==GENERATE Controllers
+        # Para cada Tabela é então copiado o template controller.rb para  a pasta do projeto
+        #app/controllers/ com o nome no Plural, passamos tambem as variáveis que devem ser mudadas
+        #dentro dos Templates( Todos os NAMES acima.S ).
+        #
         m.template("controller.rb","app/controllers/#{name[:plural]}_controller.rb",:assigns=>{:object_name=>name})         
 
-        #CREATE Models
+        # == GENERATE Models
+         # Para cada Tabela é então copiado o template model.rb para  a pasta do projeto
+        #app/models/ com o nome no Plural, passamos tambem as variáveis que devem ser mudadas
+        #dentro dos Templates( Todos os NAMES acima.S ).
+        #
         m.template("model.rb","app/models/#{name[:single]}.rb",:assigns=>{:object_name=>name})         
-       #Create Views Directory
+     
+        # == GENERATE Views Directory
+        # Criamos o Diretorio que vai conter as Views com o nome da tabela no plural
         m.directory("app/views/#{name[:plural]}")
         
-        #Create  Views Files
-
+        # == GENERATE Views Files
+        #Criamos então para cada tabela os 4 arquivos de CRUD: edit.html.erb, index.html.erb, show.html.erb, new.html.erb.
+        #na Pasta que acabamos de gerar, utilizando seus respectivos templates view_edit.html.erb, view_index.html.erb,
+        # view_show.html.erb, view_new.html.erb
+        #
         m.template("view_edit.html.erb","app/views/#{name[:plural]}/edit.html.erb",:assigns=>{:attributes=>attrs,:object_name=>name})     
         m.template("view_index.html.erb","app/views/#{name[:plural]}/index.html.erb",:assigns=>{:attributes=>attrs,:object_name=>name})    
         m.template("view_show.html.erb","app/views/#{name[:plural]}/show.html.erb",:assigns=>{:attributes=>attrs,:object_name=>name})               
         m.template("view_new.html.erb","app/views/#{name[:plural]}/new.html.erb",:assigns=>{:attributes=>attrs,:object_name=>name})         
+        
+        # == GENERATE Routes
+        # Geramos a rota para cada objeto gerado.
+        #
         m.route_resources name[:plural]
-      end
-
+       
+        # == GENERATE Layout
+        # Geramos a layouts para cada objeto gerado.
+        #
+        m.template("layout.html.erb","app/views/layouts/#{name[:plural]}.html.erb",:assigns=>{:object_name=>name}) 
+  
+        
+      end #END:: Each Table Name
       
-#      m.directory(File.join('app/controllers', controller_class_path))
-#      m.directory(File.join('app/helpers', controller_class_path))
-#      m.directory(File.join('app/views', controller_class_path, controller_file_name))
-#      m.directory(File.join('test/functional', controller_class_path))
-#      m.directory(File.join('test/unit', class_path))   
-  end
+  end # END:: do-record(m)
 
-  end
+  end #END:: Manifest
 
-end
+end #END:: Class
 
