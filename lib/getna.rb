@@ -57,7 +57,7 @@ module Getna
     
     
     def start_messenger
-    $stdout.print("\n\n-----------  GEtna Generator 0.0.1  ---------\n")
+    $stdout.print("\n\n-----------  GEtna Generator 0.0.3  ---------\n")
     $stdout.print("_______________________________________________\n")
     $stdout.print("\nLoading Database... \n\n")
     end

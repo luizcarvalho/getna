@@ -6,24 +6,6 @@ class GetnaGenerator < Rails::Generator::NamedBase
   #   Das tabelas são buscados nome das tabelas(para classes), nome dos campos (para Atributos) e seus 
   #atributos(para validações) e ainda chaves estrangeiras (para relacionamentos), 
   #
-  #      
-  #      
-  #      
-  #      
-  #      
-  #      
-  #      
-  #      
-  #      
-  #      
-  #      
-  #      
-  #      
-  #      
-  #      
-  #      
-  #      
-  #
   def initialize(runtime_args, runtime_options = {})
     super
 
@@ -82,6 +64,15 @@ class GetnaGenerator < Rails::Generator::NamedBase
         m.template("view_show.html.erb","app/views/#{name[:plural]}/show.html.erb",:assigns=>{:attributes=>attrs,:object_name=>name})               
         m.template("view_new.html.erb","app/views/#{name[:plural]}/new.html.erb",:assigns=>{:attributes=>attrs,:object_name=>name})         
         m.route_resources name[:plural]
+        
+        
+        #CREATE Helpers
+        m.template("helper.rb","app/helpers/#{name[:plural]}_helper.rb",:assigns=>{:object_name=>name})    
+
+
+        #CREATE Testes Unitários
+        m.template("unit_test.rb","test/unit/#{name[:single]}_test.rb",:assigns=>{:object_name=>name})
+        
       end
 
       
