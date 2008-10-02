@@ -8,16 +8,22 @@
 --This Simple Data Base for test of the GEtna
 --
 -- ;)
---
---
-
 
 --
 -- Create schema getna
 --
 
+-- na linha de comando digite:
+-- > mysql -u seu_usuario -p
+-- depois:
 CREATE DATABASE IF NOT EXISTS getna;
+--
+-- depois 
 USE getna;
+--
+
+-- então é só criar as tabelas
+
 CREATE TABLE  `getna`.`group_permissions` (
   `id` int(11) NOT NULL auto_increment,
   `permission_id` int(11) default NULL,

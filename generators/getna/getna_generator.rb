@@ -5,8 +5,7 @@ class GetnaGenerator < Rails::Generator::NamedBase
   # gera-se então toda a estrutura de uma aplicação Rails como um Scaffold, mas em um unico commado.
   #   Das tabelas são buscados nome das tabelas(para classes), nome dos campos (para Atributos) e seus 
   #atributos(para validações) e ainda chaves estrangeiras (para relacionamentos), 
-  #      
-  #
+
   def initialize(runtime_args, runtime_options = {})
     super
    # Instânciamos o Objeto GEtna com as infomações do Banco de dados
@@ -71,15 +70,27 @@ class GetnaGenerator < Rails::Generator::NamedBase
         # Geramos a rota para cada objeto gerado.
         #
         m.route_resources name[:plural]
+
        
         # == GENERATE Layout
         # Geramos a layouts para cada objeto gerado.
         #
         m.template("layout.html.erb","app/views/layouts/#{name[:plural]}.html.erb",:assigns=>{:object_name=>name}) 
   
+
+
         
+
       end #END:: Each Table Name
-      
+
+        
+        #CREATE Helpers
+        m.template("helper.rb","app/helpers/#{name[:plural]}_helper.rb",:assigns=>{:object_name=>name})    
+
+
+        #CREATE Testes Unitários
+        m.template("unit_test.rb","test/unit/#{name[:single]}_test.rb",:assigns=>{:object_name=>name})
+     
   end # END:: do-record(m)
 
   end #END:: Manifest
