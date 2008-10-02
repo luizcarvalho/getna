@@ -1,14 +1,4 @@
 == Getna 
 
-GEtna, a partir de um de um banco de dados padronizados de acordo com as convencoes 
-do Rails, cria toda a estrutura de arquivos e classes necessárias, alem de validacoes de dados, 
-migracoes, personalizacoes e internacionalizacao. O codigo gerado possui as funcionalidades 
-de insercao, delecao, alteracao e listagem,  seguindo o padrao de nomeação de tabelas e de 
-atributos estabelecido pelo RubyOnRails e a organização de arquivos e responsabilidades 
-utilizados no MVC (Model – Modelo, View – Interface, Controller - Controlador), por meio do 
-uso de Templates.
+script/generator getna xxx
 
-==  Modos
-
-Style: blue
-Style: red
