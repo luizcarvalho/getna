@@ -1,7 +1,7 @@
 module Getna  
   class Base
     attr_reader :connection,:table_names,:tag
-    $VERSION = "0.0.2"
+    $VERSION = "0.0.3"
 
     def initialize
     
@@ -87,28 +87,12 @@ module Getna
     
     #mensagem de inicialização do gerador
     def start_messenger
-<<<<<<< HEAD:lib/getna.rb
+
     $stdout.print("\n\n-----------  GEtna Generator #{$VERSION}  ---------\n")
-=======
-    $stdout.print("\n\n-----------  GEtna Generator 0.0.3  ---------\n")
->>>>>>> origin/trunk:lib/getna.rb
     $stdout.print("_______________________________________________\n")
     $stdout.print("\nLoading Database... \n\n")
     end
-    
-    
+        
   end
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
+
 end
