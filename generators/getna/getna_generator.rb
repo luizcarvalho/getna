@@ -17,9 +17,13 @@ class GetnaGenerator < Rails::Generator::NamedBase
   def manifest
     record do |m|
 
-      
+      # == GENERATE Diretorio de Layouts
       m.directory("app/views/layouts")
-      m.template("style.css","public/stylesheets/getna.css")   
+      # == GENERATE Stilo 
+      m.file("style.css","public/stylesheets/getna.css")   
+      # == GENERATE Pagina inicial do GEtna
+      #TODO colocar imagem do GEtna
+      m.template("index.html.erb","public/index.html",:assigns=>{:entities =>@geobject} ,:collision => :force)   
       #
       #Para Cada tabela do banco colocamos em nosso Hash 
       # * Name:Singular: Nome do Tabela no Singular
@@ -76,13 +80,7 @@ class GetnaGenerator < Rails::Generator::NamedBase
         # Geramos a layouts para cada objeto gerado.
         #
         m.template("layout.html.erb","app/views/layouts/#{name[:plural]}.html.erb",:assigns=>{:object_name=>name}) 
-  
-
-
         
-
-      end #END:: Each Table Name
-
         
         #CREATE Helpers
         m.template("helper.rb","app/helpers/#{name[:plural]}_helper.rb",:assigns=>{:object_name=>name})    
@@ -90,6 +88,14 @@ class GetnaGenerator < Rails::Generator::NamedBase
 
         #CREATE Testes Unitários
         m.template("unit_test.rb","test/unit/#{name[:single]}_test.rb",:assigns=>{:object_name=>name})
+
+        
+
+      end #END:: Each Table Name
+
+        
+
+
      
   end # END:: do-record(m)
 
