@@ -10,6 +10,7 @@ class GetnaGenerator < Rails::Generator::NamedBase
     super
    # Instânciamos o Objeto GEtna com as infomações do Banco de dados
    @geobject = Getna::Base.new  
+   @style = "default"
   end
 
 
@@ -19,7 +20,7 @@ class GetnaGenerator < Rails::Generator::NamedBase
 
       
       m.directory("app/views/layouts")
-      m.template("style.css","public/stylesheets/getna.css")   
+      m.template("/styles/#{@style}.css","public/stylesheets/getna.css")   
       #
       #Para Cada tabela do banco colocamos em nosso Hash 
       # * Name:Singular: Nome do Tabela no Singular
@@ -75,14 +76,8 @@ class GetnaGenerator < Rails::Generator::NamedBase
         # == GENERATE Layout
         # Geramos a layouts para cada objeto gerado.
         #
-        m.template("layout.html.erb","app/views/layouts/#{name[:plural]}.html.erb",:assigns=>{:object_name=>name}) 
+        m.template("layouts/#{@style}_layout.html.erb","app/views/layouts/#{name[:plural]}.html.erb",:assigns=>{:object_name=>name}) 
   
-
-
-        
-
-      end #END:: Each Table Name
-
         
         #CREATE Helpers
         m.template("helper.rb","app/helpers/#{name[:plural]}_helper.rb",:assigns=>{:object_name=>name})    
@@ -90,10 +85,12 @@ class GetnaGenerator < Rails::Generator::NamedBase
 
         #CREATE Testes Unitários
         m.template("unit_test.rb","test/unit/#{name[:single]}_test.rb",:assigns=>{:object_name=>name})
-     
+
+      end #END:: Each Table Name
+
   end # END:: do-record(m)
 
-  end #END:: Manifest
+ end #END:: Manifest
 
 end #END:: Class
 
