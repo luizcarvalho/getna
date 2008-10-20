@@ -18,9 +18,15 @@ class GetnaGenerator < Rails::Generator::NamedBase
   def manifest
     record do |m|
 
-      
+      # == GENERATE Diretorio de Layouts
       m.directory("app/views/layouts")
-      m.template("/styles/#{@style}.css","public/stylesheets/getna.css")   
+      # == GENERATE Stilo 
+      m.file("/styles/#{@style}.css","public/stylesheets/getna.css")   
+
+      # == GENERATE Pagina inicial do GEtna
+      #TODO colocar imagem do GEtna
+      m.template("index.html.erb","public/index.html",:assigns=>{:entities =>@geobject} ,:collision => :force)   
+
       #
       #Para Cada tabela do banco colocamos em nosso Hash 
       # * Name:Singular: Nome do Tabela no Singular
@@ -71,17 +77,17 @@ class GetnaGenerator < Rails::Generator::NamedBase
         # Geramos a rota para cada objeto gerado.
         #
         m.route_resources name[:plural]
-
-       
+      
         # == GENERATE Layout
         # Geramos a layouts para cada objeto gerado.
         #
         m.template("layouts/#{@style}_layout.html.erb","app/views/layouts/#{name[:plural]}.html.erb",:assigns=>{:object_name=>name}) 
-  
         
         #CREATE Helpers
         m.template("helper.rb","app/helpers/#{name[:plural]}_helper.rb",:assigns=>{:object_name=>name})    
 
+        #CREATE Testes Unitários
+        m.template("unit_test.rb","test/unit/#{name[:single]}_test.rb",:assigns=>{:object_name=>name})
 
         #CREATE Testes Unitários
         m.template("unit_test.rb","test/unit/#{name[:single]}_test.rb",:assigns=>{:object_name=>name})
