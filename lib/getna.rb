@@ -1,15 +1,24 @@
+
 module Getna  
   class Base
     attr_reader :connection,:table_names,:tag
-    $VERSION = "0.0.3"
+    $VERSION = "0.0.4"
 
-    def initialize
+    def initialize (env)
     
       #TODO Realize Connections for all DataBases
       
       #Mensagen de inicialização do sistema de geração de codigo.
-      start_messenger
+      start_messenger(env)
       
+      
+      #Abre Arquivo de Configuração de banco de dados do Rails
+      conf = YAML::load(File.open("#{RAILS_ROOT}/config/database.yml")) 
+     
+      #Estabelece Conheção de acordo com o tipo de Enviroment(production,development,teste ou outo)
+      ActiveRecord::Base.establish_connection(conf[env])
+      
+
       #Realiza uma conexção com as configurações encontradas do database.yml
       #Busca toda a estrutura da base de dados
       #Entre elas:
@@ -19,12 +28,15 @@ module Getna
       @con = ActiveRecord::Base.connection
        
       #Busca todos os nomes de tabelas daquele banco de dados
-       @table_names = @con.tables
-       #Deletamos tabelas que não devem ser geradas(schema_migrations) 
-       @table_names.delete("schema_migrations")  
+      @table_names = @con.tables
+      #Deletamos tabelas que não devem ser geradas(schema_migrations) 
+      @table_names.delete("schema_migrations")  
        
     end
-
+    
+    
+    
+    #===================================================
     # == Metodo to_view
     # Transforma tipos de dados encontrados em determinada tabela em tipo de dados
     # de view, ou seja, para cada tipo de dados no banco ele transforma de modo que este 
@@ -47,7 +59,6 @@ module Getna
     # == Retorno
     # Retorna um Hash com a seguinte estrutura para um exemplo de Usuario.
     #[{:type=>"text_field", :name=>"id"}, {:type=>"text_field", :name=>"nome"}, {:type=>"text_field", :name=>"endereco"}, {:type=>"text_field", :name=>"grupo_id"}, {:type=>"date_select", :name=>"created_at"}, {:type=>"date_select", :name=>"updated_at"}]
-    
     def to_view(table_name)
       attr_view = []
       #Exceções, são campos da tabela que não necessitam ser gerados
@@ -63,57 +74,76 @@ module Getna
       attr_view
     end
        
-    
-  #Retorna os atributos de cada tabela dentro de um array, nesse array contém 
-  # todas as informações sobre esse atributo, como: nome, tipo e tamanho
+        
+        
+    #=================================================== 
+    #Retorna os atributos de cada tabela dentro de um array, nesse array contém 
+    # todas as informações sobre esse atributo, como: nome, tipo e tamanho
   
     def get_attributes(table_name)
       @con.columns(table_name)      
     end
     
-  private
-  #Retorna tipos de dados de banco para tipo de dados de views
+    
+       #=================================================== 
+
+ 
+    #+++++++++++++++++++++++++++++++++++++++++++++++++++   
+ 
+    private
+    #=================================================== 
+    #Retorna tipos de dados de banco para tipo de dados de views
     def type_for_tag(type)
       tag ={
         "string"=>"text_field",
         "boolean"=>"check_box",   
         "integer"=>"text_field",
         "text"=>"text_area",
-         "references"=>"text_area",
-         "datetime"=>"date_select"
+        "references"=>"text_area",
+        "datetime"=>"date_select"
       }      
       tag[type]      
     end
     
+    
+    #===============  MESSAGES ==========================
+    #
     #mensagem de inicialização do gerador
-    def start_messenger
-
-    $stdout.print("\n\n-----------  GEtna Generator #{$VERSION}  ---------\n")
-    $stdout.print("_______________________________________________\n")
-    $stdout.print("\nLoading Database... \n\n")
+    def start_messenger(env)
+      $stdout.print("\n\n-----------  GEtna Generator #{$VERSION}  ---------\n")
+      $stdout.print("_______________________________________________\n")
+      $stdout.print("\n Conexão para: #{env} \n")
+      $stdout.print("\nCarregando Informações do Banco de Dados... \n\n")
     end
-        
+  
   end
 
+  
+  
+  
+  
+  
   class Structure
     attr_accessor :hash_options_for 
-    
+    def initialize
+      
+    end
     
     # +________________________________________
     def hash_options_for(actions)
       hash = {}   
-      
-          actions.each do|i| 
-            k,v = i.split(':')
-            hash.store(k,v)
-          end
-      
-    hash
+
+      actions.each do|i| 
+        k,v = i.split(':')
+        hash.store(k,v)
+      end
+
+      hash
     end #END:: hash_options_for
 
   end
   
   
-  
+
   
 end

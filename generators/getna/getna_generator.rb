@@ -9,12 +9,16 @@ class GetnaGenerator < Rails::Generator::NamedBase
   def initialize(runtime_args, runtime_options = {})
     super
    # Instânciamos o Objeto GEtna com as infomações do Banco de dados
-   @geobject = Getna::Base.new  
+   @geobject = Getna::Base.new(@name)
+   @structure = Getna::Structure.new
 #   $stdout.print "STYLE: #{runtime_options[:style] }\n\n"
-#   $stdout.print "OPTIONS: #{runtime_args[0] }\n\n"
-#   $stdout.print "ARGS:  #{runtime_args}\n\n"
-#   $stdout.print "ACTIONS:#{actions[1] }\n\n"
-   @style =  'default'
+#   $stdout.print "OPTIONS: #{runtime_options}\n\n"
+ #  $stdout.print "ARGS:  #{ }\n\n"
+#   $stdout.print "ACTIONS:  #{actions[1] }\n\n"
+
+#TODO fazer teste se as Opções estão corretas
+  options =   @structure.hash_options_for(actions)
+  @style =  options['style'] || 'default'
   end
 
 

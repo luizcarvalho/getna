@@ -1,15 +1,48 @@
 == Getna 
 
-script/generate getna xxx
+script/generate getna env
 
-== OPÇÕES
+_____
+Para geração de arquivos com o Getna é necessário apenas informar as configurações 
+de acesso ao banco de dados, para facilitar ainda mais a vida do programadores e não
+e diminuir a repetição de informaçõe, os dados necessarios para essa conexão são retirados
+do database.yml encontrado na pasta config/  da sua aplicação Rails, com iss você pode definir
+qualquer uma de suas environment para ser a origem da informação ou até criar uma apenas para 
+esse fim. ex:
+
+>>database.yml
+--------------------------------------------------------------------------------
+development:
+  adapter: mysql
+  database: getna
+  username: user
+  password: pass
+
+my_getna_imput
+  adapter: postgres
+  database: input
+  username: user
+  password: pass
+--------------------------------------------------------------------------------
+
+PARA ISSO USAMOS
+script/generate getna development
+
+ou para o segundo caso:
+
+script/generate getna my_getna_input
+
+Por Default o environment é 'delevopment'
+
+== OPÇÕES =====================
+
 style:
   default
   depot
 
  # exemplo #
-script/generate getna xxx style:depot
+script/generate getna development style:depot
 
 # observação #
- Caso não seja passado é assumido o Stylo default
+ Caso não seja passado é assumido o estilo 'default'
 
