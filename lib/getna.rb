@@ -95,4 +95,25 @@ module Getna
         
   end
 
+  class Structure
+    attr_accessor :hash_options_for 
+    
+    
+    # +________________________________________
+    def hash_options_for(actions)
+      hash = {}   
+      
+          actions.each do|i| 
+            k,v = i.split(':')
+            hash.store(k,v)
+          end
+      
+    hash
+    end #END:: hash_options_for
+
+  end
+  
+  
+  
+  
 end

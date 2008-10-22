@@ -1,4 +1,15 @@
 == Getna 
 
-script/generator getna xxx
+script/generate getna xxx
+
+== OPÇÕES
+style:
+  default
+  depot
+
+ # exemplo #
+script/generate getna xxx style:depot
+
+# observação #
+ Caso não seja passado é assumido o Stylo default
 
