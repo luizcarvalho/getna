@@ -98,9 +98,7 @@ class GetnaGenerator < Rails::Generator::NamedBase
         #CREATE Testes Unitários
         m.template("unit_test.rb","test/unit/#{name[:single]}_test.rb",:assigns=>{:object_name=>name})
 
-        #CREATE Testes Unitários
-        m.template("unit_test.rb","test/unit/#{name[:single]}_test.rb",:assigns=>{:object_name=>name})
-
+      
       end #END:: Each Table Name
 
   end # END:: do-record(m)

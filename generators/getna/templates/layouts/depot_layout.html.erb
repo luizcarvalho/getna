@@ -11,10 +11,10 @@
   <%%= stylesheet_link_tag 'getna' %>
 
   <div id="banner">
-    <%="TITLE#{ object_name[:class]}" %>
+    <%=  object_name[:class] %>
   </div>
   <div id="columns">
-  <div id="side">
+    <div id="side"></div>
 
     <div id="main">
     <%% if flash[:notice] -%>
@@ -22,6 +22,6 @@
     <%% end -%>
       <%%= yield :layout %>
     </div>
-
+</div>
 </body>
 </html>

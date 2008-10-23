@@ -32,6 +32,7 @@ CREATE TABLE  `getna`.`group_permissions` (
   `updated_at` datetime default NULL,
   PRIMARY KEY  (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
 CREATE TABLE  `getna`.`group_users` (
   `id` int(11) NOT NULL auto_increment,
   `group_id` int(11) NOT NULL,
@@ -40,6 +41,7 @@ CREATE TABLE  `getna`.`group_users` (
   `updated_at` datetime default NULL,
   PRIMARY KEY  (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
 CREATE TABLE  `getna`.`groups` (
   `id` int(11) NOT NULL auto_increment,
   `name` varchar(100) NOT NULL,
@@ -48,6 +50,7 @@ CREATE TABLE  `getna`.`groups` (
   `updated_at` datetime default NULL,
   PRIMARY KEY  (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
 CREATE TABLE  `getna`.`permissions` (
   `id` int(11) NOT NULL auto_increment,
   `name` varchar(100) NOT NULL,
@@ -56,11 +59,13 @@ CREATE TABLE  `getna`.`permissions` (
   `updated_at` datetime default NULL,
   PRIMARY KEY  (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
 CREATE TABLE  `getna`.`schema_migrations` (
   `version` varchar(255) NOT NULL,
   UNIQUE KEY `unique_schema_migrations` (`version`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 INSERT INTO `getna`.`schema_migrations` VALUES  ('20080804004129');
+
 CREATE TABLE  `getna`.`users` (
   `id` int(11) NOT NULL auto_increment,
   `login` varchar(40) default NULL,
