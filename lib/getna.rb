@@ -1,3 +1,10 @@
+# Copyright (c) 2008  Luiz Arão Araújo Carvalho
+# 
+# Esse arquivo é regido pela licença MIT
+# Leia o Arquivo MIT-LICENSE encontrado
+# na raiz desse Plugin para mais infomações
+# Sobre sua Cópia. 
+#
 
 module Getna  
   class Base
