@@ -30,11 +30,11 @@ linha de comando:
 
 == Requisitos
 
-    Para que o gerador Funcione corretamente e necessario que o banco esteja totalmente padronizado
-  de acordo com o Rails.
-    *  Teblas no Plural
-    *  Nomes compostos de mais de uma palavra devem ser separados com underline (_), devem estar ordenadas  
-  Alfabeticamente com a ultma palavra no plural EX:     
+Para que o gerador Funcione corretamente e necessario que o banco esteja totalmente padronizado
+de acordo com o Rails.
+ *  Teblas no Plural
+ *  Nomes compostos de mais de uma palavra devem ser separados com underline (_), devem estar ordenadas  
+Alfabeticamente com a ultma palavra no plural EX:     
        1. CERTO: grupo_usuarios
        2. ERRADO: grupos_usuario - Plural em uma palavra que nao eh a ultima
        3. ERRADO: usuario_grupo - Ordem não alfabetica e sem plural na ultima palavra
@@ -43,12 +43,12 @@ linha de comando:
        6. ERRADO: grupo-usuarios - Os Nomes devem ser separados por Underline
        Entre Varias outras meneiras de nomeclatura errada, entao sempre use a primeira.
     
-    *  Chaves estrangeiras sempre nome da tabela no singular + o sufixo _id EX:
+* Chaves estrangeiras sempre nome da tabela no singular + o sufixo _id EX:
         1. CERTO: grupo_id
         2. ERRADO: grupos_id
         3. ERRADO: id
         4. ERRADO: id_grupos
-    Deu pra entender =)
+Deu pra entender =)
 
 ==  Gerando GEtna's
 
