@@ -1,11 +1,11 @@
-<h1>Editing <%= object_name[:single] %></h1>
+<h1>Alterar <%= object_name[:single].humanize %></h1>
 
 <%%= error_messages_for :<%= object_name[:single] %> %>
 
 <%% form_for(@<%= object_name[:single] %>) do |f| %>
 <% for attribute in attributes -%>
   <p>
-    <b><%= attribute[:name] %></b><br />
+    <b><%= attribute[:name].humanize %></b><br />
     <%%= f.<%= attribute[:type] %> :<%= attribute[:name] %> %>
   </p>
 
@@ -15,5 +15,5 @@
   </p>
 <%% end %>
 
-<%%= link_to 'Show', @<%= object_name[:single] %> %> |
-<%%= link_to 'Back', <%= object_name[:plural] %>_path %>
+<%%= link_to 'Mostrar', @<%= object_name[:single] %> %> |
+<%%= link_to 'Voltar', <%= object_name[:plural] %>_path %>

@@ -1,8 +1,8 @@
-<h1> <%= object_name[:singular] %></h1>
+<h1>Detalhes Sobre <%= object_name[:singular].humanize %></h1>
 <p>
 <% for attribute in attributes -%>
 <p>
-  <b><%= attribute[:name] %>:</b>
+  <b><%= attribute[:name].humanize %>:</b>
   <%%=h @<%= object_name[:single]  %>.<%= attribute[:name] %> %>
 </p>
 

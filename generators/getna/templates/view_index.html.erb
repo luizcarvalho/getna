@@ -1,9 +1,9 @@
-<h1>Listando <%= object_name[:plural] %></h1>
+<h1>Listando <%= object_name[:plural].humanize %></h1>
 
 <table>
   <tr>
 <% for attribute in attributes -%>
-    <th><%= attribute[:name] %></th>
+    <th><%= attribute[:name].humanize %></th>
 <% end -%>
   </tr>
 
@@ -21,4 +21,4 @@
 
 <br />
 
-<%%= link_to 'Novo <%= object_name[:single] %>', new_<%= object_name[:single] %>_path %>
+<%%= link_to 'Cadastrar <%= object_name[:single] %>', new_<%= object_name[:single] %>_path %>

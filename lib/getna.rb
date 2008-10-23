@@ -119,8 +119,9 @@ module Getna
     def start_messenger(env)
       $stdout.print("\n\n-----------  GEtna Generator #{$VERSION}  ---------\n")
       $stdout.print("_______________________________________________\n")
-      $stdout.print("\n Conexão para: #{env} \n")
+      $stdout.print("\nEstabelecendo conexão: #{env} \n")
       $stdout.print("\nCarregando Informações do Banco de Dados... \n\n")
+      $stdout.print("\nExecutado Ação... \n\n")
     end
   
   end
@@ -132,11 +133,24 @@ module Getna
   
   class Structure
     attr_accessor :hash_options_for 
-    def initialize
-      
+    def initialize      
     end
     
-    # +________________________________________
+    # == Descrição
+    # Método de Tratamento da entrada do usuario
+    # 
+    # == Exemplo
+    # script/generate getna development style:depot
+    # recebemos então o seguinte array:
+    # ['style:depot'], nosso método então converte em
+    # {'style'=>'depot'}
+    # 
+    # == Retorno
+    # Retorna um Array com os pares de entrada do console 
+    # do usuário.
+    # 
+    # {"chave"=>"valor","chave"=>"valor"} 
+    #    
     def hash_options_for(actions)
       hash = {}   
 

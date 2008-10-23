@@ -1,4 +1,4 @@
-<h1>New <%= object_name[:single] %></h1>
+<h1>Cadastro de <%= object_name[:single].humanize %></h1>
 
 <%%= error_messages_for :<%= object_name[:single] %> %>
 
@@ -11,7 +11,7 @@
 
 <% end -%>
   <p>
-    <%%= f.submit "Criar" %>
+    <%%= f.submit "Cadastrar" %>
   </p>
 <%% end %>
 

@@ -49,7 +49,7 @@ class <%= object_name[:class_plural] %>Controller < ApplicationController
 
     respond_to do |format|
       if @<%= object_name[:single]  %>.save
-        flash[:notice] = '<%= object_name[:single]  %> was successfully created.'
+        flash[:notice] = '<%= object_name[:single].humanize  %> foi cadastrado com sucesso!'
         format.html { redirect_to(@<%= object_name[:single]  %>) }
         format.xml  { render :xml => @<%= object_name[:single]  %>, :status => :created, :location => @<%= object_name[:single]  %> }
       else
@@ -66,7 +66,7 @@ class <%= object_name[:class_plural] %>Controller < ApplicationController
 
     respond_to do |format|
       if @<%= object_name[:single]  %>.update_attributes(params[:<%= object_name[:single]  %>])
-        flash[:notice] = '<%= object_name[:plural]  %> was successfully updated.'
+        flash[:notice] = '<%= object_name[:plural]  %> foi alterado com sucesso!'
         format.html { redirect_to(@<%= object_name[:single]  %>) }
         
         format.xml  { head :ok }

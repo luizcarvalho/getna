@@ -8,12 +8,14 @@ atributos estabelecido pelo RubyOnRails e a organização de arquivos e responsa
 utilizados no MVC (Model – Modelo, View – Interface, Controller - Controlador), por meio do 
 uso de Templates.
 
-Author::	Luiz Arão Araújo Carvalho <maximusmano@gmail.com>
-Requires::	Ruby 1.8 ou Superior
-License::	Copyright (c) 2003 Luiz Arão A. Carvalho. Lançadp sobre as Regras da Lisença MIT. 
+ Author::	Luiz Arão Araújo Carvalho <maximusmano@gmail.com>
+
+ Requires::	Ruby 1.8 ou Superior
+
+ License::	Copyright (c) 2003 Luiz Arão A. Carvalho. Lançadp sobre as Regras da Lisença MIT. 
 
 
-== Instalacao
+== Instalação
 
 Existem 2 maneiras facieis de fazer isso, a primeira mais trivial:
 Acesso: http://github.com/LuizCarvalho/getna e baixe esse plugin, colocando-o na pasta
@@ -57,12 +59,13 @@ Apos seu banco ja estar padronizado, e o nosso plugins ja esta instalado correta
 dificil tarefa de acionar o gerador para que a magica aconteça.
 
 Primeiramente devemos dizer ao nosso gerador qual o banco de dados queremos usar(ainda 
-nao pensei em uma maneira dele advinhar isso =) ) 
-vá no arquivo  "database.yml" e passe os dados da sua base de dados no enviroment que você esta 
-usando, como eh aconselhavel utilizar esse gerador no inicio do projeto, modifique entao o 
-DEVELOPMENT:
+nao pensei em uma maneira dele advinhar isso =)[alias ele meio que adivinha, caso não seja 
+informado ele então utiliza o Environment atual] )
+Vá no arquivo  "database.yml" e você possui duas Opções, ou utilziar um dos Environment
+já existente(development, test ou production) ou criar um apenas para esse fim vamos citar
+os dois exemplos 
 
-Assim:
+* Exemplo 1:
 
  development:
    adapter: mysql
@@ -70,20 +73,29 @@ Assim:
    username: usuariopadrao
    password: senhapadrao
 
+* Exemplo 2:
+
+ input:
+   adapter: sqlite3
+   database: getna
+   timeout: 500
+
+
 e... pronto! dificil neh?
 
 
 Agora vamos ao nosso gerador :)
 digite o seguinte comando em seu projeto Rails.
 
-scritp/generate getna default
+ scritp/generate getna development
 
 e SHAZAANN!!
 Seu projeto foi gerado e está pronto para ser usado.
 
 
-Duvidas? Erros? Gostou?
-http://maxonrails.wordpress.com/2008/09/08/getna-feedback/
+:: Duvidas? Erros? Gostou?
+
+[url]http://maxonrails.wordpress.com/2008/09/08/getna-feedback/[/url]
 
 
 

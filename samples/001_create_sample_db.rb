@@ -93,7 +93,7 @@ class CreateSampleDb < ActiveRecord::Migration
       t.string :marca, :limit => 100, :null=> false
       t.string :modelo, :limit => 100, :null=> false
       t.string :patrimonio, :limit => 10, :null=> false
-      t.string :descricao, :limit => 255
+      t.text :descricao, :limit => 255
       t.boolean :status
       
       t.references :equipamento
