@@ -1,0 +1,93 @@
+== Getna 
+
+GEtna, a partir de um de um banco de dados padronizados de acordo com as convencoes 
+do Rails, cria toda a estrutura de arquivos e classes necessárias, alem de validacoes de dados, 
+migracoes, personalizacoes e internacionalizacao. O codigo gerado possui as funcionalidades 
+de insercao, delecao, alteracao e listagem,  seguindo o padrao de nomeação de tabelas e de 
+atributos estabelecido pelo RubyOnRails e a organização de arquivos e responsabilidades 
+utilizados no MVC (Model – Modelo, View – Interface, Controller - Controlador), por meio do 
+uso de Templates.
+
+
+== Instalacao
+
+Existem 2 maneiras facieis de fazer isso, a primeira mais trivial:
+Acesso: http://github.com/LuizCarvalho/getna e baixe esse plugin, colocando-o na pasta
+    "vendor/plugins"
+Que então fica assim:
+     "vendor/plugins/getna"
+
+A segunda maneira eh instalar o o git (http://git.or.cz/) e na pasta "vendor/plugins" digitar na 
+linha de comando:
+
+> git clone git://github.com/LuizCarvalho/getna.git
+
+
+
+== Requisitos
+
+    Para que o gerador Funcione corretamente e necessario que o banco esteja totalmente padronizado
+  de acordo com o Rails.
+    *  Teblas no Plural
+    *  Nomes compostos de mais de uma palavra devem ser separados com underline (_), devem estar ordenadas  
+  Alfabeticamente com a ultma palavra no plural EX:     
+       1. CERTO: grupo_usuarios
+       2. ERRADO: grupos_usuario - Plural em uma palavra que nao eh a ultima
+       3. ERRADO: usuario_grupo - Ordem não alfabetica e sem plural na ultima palavra
+       4. ERRADO: usuarios_grupo - Ordem não alfabetica e erro pluralização de palavras 
+       5. ERRADO: usuarios_grupo - Ordem não alfabetica e erro pluralização de palavras
+       6. ERRADO: grupo-usuarios - Os Nomes devem ser separados por Underline
+       Entre Varias outras meneiras de nomeclatura errada, entao sempre use a primeira.
+    
+    *  Chaves estrangeiras sempre nome da tabela no singular + o sufixo _id EX:
+        1. CERTO: grupo_id
+        2. ERRADO: grupos_id
+        3. ERRADO: id
+        4. ERRADO: id_grupos
+Deu pra entender =)
+
+==  Gerando GEtna's
+
+Apos seu banco ja estar padronizado, e o nosso plugins ja esta instalado corretamente, vamos a 
+dificil tarefa de acionar o gerador para que a magica aconteça.
+
+Primeiramente devemos dizer ao nosso gerador qual o banco de dados queremos usar(ainda 
+nao pensei em uma maneira dele advinhar isso =) ) 
+vá no arquivo  "database.yml" e passe os dados da sua base de dados no enviroment que você esta 
+usando, como eh aconselhavel utilizar esse gerador no inicio do projeto, modifique entao o 
+DEVELOPMENT:
+
+Assim:
+
+development:
+  adapter: mysql
+  database: getna
+  username: usuariopadrao
+  password: senhapadrao
+
+e... pronto! dificil neh?
+
+
+Agora vamos ao nosso gerador :)
+digite o seguinte comando em seu projeto Rails.
+
+scritp/generate getna default
+
+e SHAZAANN!!
+Seu projeto foi gerado e está pronto para ser usado.
+
+
+Duvidas? Erros? Gostou?
+http://maxonrails.wordpress.com/2008/09/08/getna-feedback/
+
+
+
+
+
+
+
+
+
+
+
+Copyright (c) 2008 Luiz Arão A. Carvalho, released under the MIT license
