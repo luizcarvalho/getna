@@ -8,6 +8,10 @@ atributos estabelecido pelo RubyOnRails e a organização de arquivos e responsa
 utilizados no MVC (Model – Modelo, View – Interface, Controller - Controlador), por meio do 
 uso de Templates.
 
+Author::	Luiz Arão Araújo Carvalho <maximusmano@gmail.com>
+Requires::	Ruby 1.8 ou Superior
+License::	Copyright (c) 2003 Luiz Arão A. Carvalho. Lançadp sobre as Regras da Lisença MIT. 
+
 
 == Instalacao
 
@@ -44,7 +48,7 @@ linha de comando:
         2. ERRADO: grupos_id
         3. ERRADO: id
         4. ERRADO: id_grupos
-Deu pra entender =)
+    Deu pra entender =)
 
 ==  Gerando GEtna's
 
@@ -59,11 +63,11 @@ DEVELOPMENT:
 
 Assim:
 
-development:
-  adapter: mysql
-  database: getna
-  username: usuariopadrao
-  password: senhapadrao
+ development:
+   adapter: mysql
+   database: getna
+   username: usuariopadrao
+   password: senhapadrao
 
 e... pronto! dificil neh?
 
