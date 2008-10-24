@@ -1,0 +1,111 @@
+--- 
+- !ruby/object:ActiveRecord::ConnectionAdapters::PostgreSQLColumn 
+  default: 
+  limit: 
+  name: id
+  "null": false
+  precision: 
+  primary: 
+  scale: 
+  sql_type: integer
+  type: :integer
+- !ruby/object:ActiveRecord::ConnectionAdapters::PostgreSQLColumn 
+  default: 
+  limit: 40
+  name: login
+  "null": true
+  precision: 
+  primary: 
+  scale: 
+  sql_type: character varying(40)
+  type: :string
+- !ruby/object:ActiveRecord::ConnectionAdapters::PostgreSQLColumn 
+  default: 
+  limit: 100
+  name: email
+  "null": true
+  precision: 
+  primary: 
+  scale: 
+  sql_type: character varying(100)
+  type: :string
+- !ruby/object:ActiveRecord::ConnectionAdapters::PostgreSQLColumn 
+  default: 
+  limit: 100
+  name: nome
+  "null": true
+  precision: 
+  primary: 
+  scale: 
+  sql_type: character varying(100)
+  type: :string
+- !ruby/object:ActiveRecord::ConnectionAdapters::PostgreSQLColumn 
+  default: 
+  limit: 40
+  name: crypted_password
+  "null": true
+  precision: 
+  primary: 
+  scale: 
+  sql_type: character varying(40)
+  type: :string
+- !ruby/object:ActiveRecord::ConnectionAdapters::PostgreSQLColumn 
+  default: 
+  limit: 40
+  name: salt
+  "null": true
+  precision: 
+  primary: 
+  scale: 
+  sql_type: character varying(40)
+  type: :string
+- !ruby/object:ActiveRecord::ConnectionAdapters::PostgreSQLColumn 
+  default: 
+  limit: 255
+  name: remember_token
+  "null": true
+  precision: 
+  primary: 
+  scale: 
+  sql_type: character varying(255)
+  type: :string
+- !ruby/object:ActiveRecord::ConnectionAdapters::PostgreSQLColumn 
+  default: 
+  limit: 
+  name: remember_token_expires_at
+  "null": true
+  precision: 
+  primary: 
+  scale: 
+  sql_type: timestamp without time zone
+  type: :datetime
+- !ruby/object:ActiveRecord::ConnectionAdapters::PostgreSQLColumn 
+  default: true
+  limit: 
+  name: active
+  "null": true
+  precision: 
+  primary: 
+  scale: 
+  sql_type: boolean
+  type: :boolean
+- !ruby/object:ActiveRecord::ConnectionAdapters::PostgreSQLColumn 
+  default: 
+  limit: 
+  name: created_at
+  "null": true
+  precision: 
+  primary: 
+  scale: 
+  sql_type: timestamp without time zone
+  type: :datetime
+- !ruby/object:ActiveRecord::ConnectionAdapters::PostgreSQLColumn 
+  default: 
+  limit: 
+  name: updated_at
+  "null": true
+  precision: 
+  primary: 
+  scale: 
+  sql_type: timestamp without time zone
+  type: :datetime

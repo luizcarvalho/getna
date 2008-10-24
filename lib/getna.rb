@@ -61,7 +61,7 @@ module Getna
     #  É necessário passar apenas o nome da tabela para que seja feito o processo.
     #   to_view('nome_da_tabela')
     #   ==== Ex
-    #   @user_tag_view = to_view('usuarios')
+    #   @user.tag_view = to_view('usuarios')
     #
     # == Retorno
     # Retorna um Hash com a seguinte estrutura para um exemplo de Usuario.
