@@ -2,8 +2,8 @@
 
 GEtna, a partir de um de um banco de dados padronizados de acordo com as convencoes 
 do Rails, cria toda a estrutura de arquivos e classes necessárias, alem de validacoes de dados, 
-migracoes, personalizacoes e internacionalizacao. O codigo gerado possui as funcionalidades 
-de insercao, delecao, alteracao e listagem,  seguindo o padrao de nomeação de tabelas e de 
+migracoes, personalizacoes e internacionalizacão. O codigo gerado possui as funcionalidades 
+de insercão, delecão, alteracão e listagem,  seguindo o padrão de nomeação de tabelas e de 
 atributos estabelecido pelo RubyOnRails e a organização de arquivos e responsabilidades 
 utilizados no MVC (Model – Modelo, View – Interface, Controller - Controlador), por meio do 
 uso de Templates.
@@ -12,12 +12,12 @@ uso de Templates.
 
  Requires::	Ruby 1.8 ou Superior
 
- License::	Copyright (c) 2003 Luiz Arão A. Carvalho. Lançadp sobre as Regras da Lisença MIT. 
+ License::	Copyright (c) 2003 Luiz Arão A. Carvalho. Lançado sobre as Regras da Lisença MIT. 
 
 
 == Instalação
 
-Existem 2 maneiras facieis de fazer isso, a primeira mais trivial:
+Existem 2 maneiras fáceis de fazer isso, a primeira mais trivial:
 Acesso: http://github.com/LuizCarvalho/getna e baixe esse plugin, colocando-o na pasta
     "vendor/plugins"
 Que então fica assim:
@@ -39,12 +39,12 @@ de acordo com o Rails.
 *  Nomes compostos de mais de uma palavra devem ser separados com underline (_), devem estar ordenadas  
 alfabeticamente com a ultma palavra no plural EX:     
        1. CERTO: grupo_usuarios
-       2. ERRADO: grupos_usuario - Plural em uma palavra que nao eh a ultima
+       2. ERRADO: grupos_usuario - Plural em uma palavra que não eh a ultima
        3. ERRADO: usuario_grupo - Ordem não alfabetica e sem plural na ultima palavra
        4. ERRADO: usuarios_grupo - Ordem não alfabetica e erro pluralização de palavras 
        5. ERRADO: usuarios_grupo - Ordem não alfabetica e erro pluralização de palavras
        6. ERRADO: grupo-usuarios - Os Nomes devem ser separados por Underline
-Entre Varias outras meneiras de nomeclatura errada, entao sempre use a primeira.
+Entre Varias outras meneiras de nomeclatura errada, então sempre use a primeira.
     
 * Chaves estrangeiras sempre nome da tabela no singular + o sufixo _id EX:
         1. CERTO: grupo_id
@@ -55,11 +55,11 @@ Deu pra entender =)
 
 ==  Gerando GEtna's
 
-Apos seu banco ja estar padronizado, e o nosso plugins ja esta instalado corretamente, vamos a 
-dificil tarefa de acionar o gerador para que a magica aconteça.
+Após seu banco já estar padronizado, e o nosso plugins instalado corretamente, vamos a 
+difícil tarefa de acionar o gerador para que a mágica aconteça.
 
 Primeiramente devemos dizer ao nosso gerador qual o banco de dados queremos usar(ainda 
-nao pensei em uma maneira dele advinhar isso =)[alias ele meio que adivinha, caso não seja 
+não pensei em uma maneira dele advinhar isso =)[alias ele meio que adivinha, caso não seja 
 informado ele então utiliza o Environment atual] )
 Vá no arquivo  "database.yml" e você possui duas Opções, ou utilziar um dos Environment
 já existente(development, test ou production) ou criar um apenas para esse fim vamos citar
@@ -70,8 +70,9 @@ os dois exemplos
  development:
    adapter: mysql
    database: getna
-   username: usuariopadrao
-   password: senhapadrao
+   username: usuario
+   password: senha
+
 
 * Exemplo 2:
 
