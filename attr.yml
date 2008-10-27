@@ -3,7 +3,7 @@
   default: 
   limit: 
   name: id
-  "null": false
+  null: false
   precision: 
   primary: 
   scale: 
@@ -13,7 +13,7 @@
   default: 
   limit: 40
   name: login
-  "null": true
+  null: true
   precision: 
   primary: 
   scale: 
@@ -23,7 +23,7 @@
   default: 
   limit: 100
   name: email
-  "null": true
+  null: true
   precision: 
   primary: 
   scale: 
@@ -33,7 +33,7 @@
   default: 
   limit: 100
   name: nome
-  "null": true
+  null: true
   precision: 
   primary: 
   scale: 
@@ -43,7 +43,7 @@
   default: 
   limit: 40
   name: crypted_password
-  "null": true
+  null: true
   precision: 
   primary: 
   scale: 
@@ -53,7 +53,7 @@
   default: 
   limit: 40
   name: salt
-  "null": true
+  null: true
   precision: 
   primary: 
   scale: 
@@ -63,7 +63,7 @@
   default: 
   limit: 255
   name: remember_token
-  "null": true
+  null: true
   precision: 
   primary: 
   scale: 
@@ -73,7 +73,7 @@
   default: 
   limit: 
   name: remember_token_expires_at
-  "null": true
+  null: true
   precision: 
   primary: 
   scale: 
@@ -83,7 +83,7 @@
   default: true
   limit: 
   name: active
-  "null": true
+  null: true
   precision: 
   primary: 
   scale: 
@@ -93,7 +93,7 @@
   default: 
   limit: 
   name: created_at
-  "null": true
+  null: true
   precision: 
   primary: 
   scale: 
@@ -103,7 +103,7 @@
   default: 
   limit: 
   name: updated_at
-  "null": true
+  null: true
   precision: 
   primary: 
   scale: 

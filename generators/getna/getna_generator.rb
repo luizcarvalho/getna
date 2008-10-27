@@ -40,7 +40,9 @@ class GetnaGenerator < Rails::Generator::NamedBase
       m.directory("app/views/layouts")
       # == GENERATE Stilo 
       m.file("/styles/#{@style}.css","public/stylesheets/getna.css")   
-
+     # == COPY getna logo 
+      m.file("/images/getna.png","public/images/getna.png")     
+      
       # == GENERATE Pagina inicial do GEtna
       #TODO colocar imagem do GEtna
       m.template("index.html.erb","public/index.html",:assigns=>{:entities =>@geobject} ,:collision => :force)   

@@ -12,9 +12,6 @@ module Getna
     $VERSION = "0.0.4"
 
     def initialize (env)
-    
-      #TODO Realize Connections for all DataBases
-      
       #Mensagen de inicialização do sistema de geração de codigo.
       start_messenger(env)
       
@@ -39,6 +36,8 @@ module Getna
       #Deletamos tabelas que não devem ser geradas(schema_migrations) 
       @table_names.delete("schema_migrations")  
        
+      @relationship  = Hash.new
+      @table_names.each{|table|   @relationship.store(table,[]) }
     end
     
     
@@ -72,7 +71,7 @@ module Getna
       exceptions = ["id","created_at","updated_at"]
       
       #Método que busca os atributos de cada tabela
-      attrs = get_attributes(table_name)  
+      attrs = columns(table_name)  
       #Inicia o processo de criação da estrutura formando pares de nome do atributo e tipo do atributo
       # caso este não esteja na lista de exceções
       attrs.each do |att| 
@@ -87,9 +86,62 @@ module Getna
     #Retorna os atributos de cada tabela dentro de um array, nesse array contém 
     # todas as informações sobre esse atributo, como: nome, tipo e tamanho
   
-    def get_attributes(table_name)
+    def columns(table_name)
       @con.columns(table_name)      
     end
+    
+   #@table_names =  ["cidades", "contatos", "departamentos", "dominios", "equipamentos", "grupo_usuarios", "grupos", "localidade_rotas", "localidades", "mailboxes", "menus", "ordem_servicos", "rotas", "usuarios"]
+    
+
+    def has_many_through
+      
+      @table_names.each do |table| 
+        if (decomp_tables = decompounds(table))
+          if  tables_exist?(decomp_tables) && has_nxn_keys?(decomp_tables, table)
+               create_relation_nxn_for(decomp_tables,table)
+          end 
+          end   #END:: if Decomp_tables
+        end #END Table Names Each
+        
+      end #END Has Many Throught
+      
+    
+    def decompounds(word)
+      is_compounds = word.match(/(.*)_+(.*)/)
+      decompoundeds = word.split('_') if is_compounds
+      decompoundeds || false
+    end
+    
+       #FIXME Fazendo com tabelas formadas de nomes compostos EX: Line_Itens 
+    def tables_exist?(tables)
+     tables.each do |table|
+      @table_names.include?(tables.pluralize)
+     end
+    end
+    
+    def has_nxn_keys?(rel_tables, thr_table)
+     table_w_keys = []
+      columns(thr_table).each do |attr|
+        if(attr.name.match(/\A(.*_id)\z/))
+          table_w_keys.push(attr.name.chomp('_id').pluralize)
+        end        
+      end   
+    table_w_keys.each{|table| rel_tables.delete(table)}   
+    rel_tables.empty? 
+  end
+  
+    def create_relation_nxn_for(rel_tables,thr_table)
+      rel_tables.each do |rtable|
+        rel_tables.each do |table|
+             @relationship[rtable].push("has_many :#{table}, :through=> :#{thr_table} ") if table !=rtable
+        end
+        puts "THR: #{thr_table}"
+        @relationship[thr_table].push("belongs_to :#{rtable.singularize}")
+        puts "REL_THR: #{rtable}"
+      end
+      @relationship
+    end
+    
     
     
        #=================================================== 
