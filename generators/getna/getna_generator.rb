@@ -19,14 +19,17 @@ class GetnaGenerator < Rails::Generator::NamedBase
     super
    # Instânciamos o Objeto GEtna com as infomações do Banco de dados
    @geobject = Getna::Base.new(@name)
-   @structure = Getna::Structure.new
+   #instâncimamos Objeto Getna::Utilities para tratarmos a entrada
+   @utility = Getna::Utilities.new
+
+    
 #   $stdout.print "STYLE: #{runtime_options[:style] }\n\n"
 #   $stdout.print "OPTIONS: #{runtime_options}\n\n"
  #  $stdout.print "ARGS:  #{ }\n\n"
 #   $stdout.print "ACTIONS:  #{actions[1] }\n\n"
 
 #TODO fazer teste se as Opções estão corretas
-  options =   @structure.hash_options_for(actions)
+  options =   @utility.hash_options_for(actions)
   @style =  options['style'] || 'default'
   end
 
@@ -77,7 +80,7 @@ class GetnaGenerator < Rails::Generator::NamedBase
         #app/models/ com o nome no Plural, passamos tambem as variáveis que devem ser mudadas
         #dentro dos Templates( Todos os NAMES acima.S ).
         #
-        m.template("model.rb","app/models/#{name[:single]}.rb",:assigns=>{:object_name=>name})         
+        m.template("model.html.erb","app/models/#{name[:single]}.rb",:assigns=>{:object_name=>name, :relationship=>@geobject.relationship['usuarios']})#["PORRA","VSF","CARAI"]})
      
         # == GENERATE Views Directory
         # Criamos o Diretorio que vai conter as Views com o nome da tabela no plural

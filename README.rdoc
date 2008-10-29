@@ -10,7 +10,7 @@ uso de Templates.
 
  Author::	Luiz Arão Araújo Carvalho <maximusmano@gmail.com>
 
- Requires::	Ruby 1.8 ou Superior
+ Requires::	Ruby 1.8 ou Superior, Rails 2.1.x (Testado sem problemas)
 
  License::	Copyright (c) 2003 Luiz Arão A. Carvalho. Lançado sobre as Regras da Lisença MIT. 
 
@@ -96,16 +96,7 @@ Seu projeto foi gerado e está pronto para ser usado.
 
 :: Duvidas? Erros? Gostou?
 
-[url]http://maxonrails.wordpress.com/2008/09/08/getna-feedback/[/url]
-
-
-
-
-
-
-
-
-
+http://maxonrails.wordpress.com/2008/09/08/getna-feedback/
 
 
 Copyright (c) 2008 Luiz Arão A. Carvalho, released under the MIT license

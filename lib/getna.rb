@@ -8,8 +8,8 @@
 
 module Getna  
   class Base
-    attr_reader :connection,:table_names,:tag
-    $VERSION = "0.0.4"
+    attr_reader :connection,:table_names,:relationship
+    $VERSION = "0.0.5"
 
     def initialize (env)
       #Mensagen de inicialização do sistema de geração de codigo.
@@ -20,8 +20,9 @@ module Getna
       conf = YAML::load(File.open("#{RAILS_ROOT}/config/database.yml")) 
      
       #Estabelece Conheção de acordo com o tipo de Enviroment(production,development,teste ou outo)
+      $stdout.print("\nEstabelecendo conexão com Banco#{conf[env]['database']}: ")
       ActiveRecord::Base.establish_connection(conf[env])
-      
+       $stdout.print("#{green('OK')} ")
 
       #Realiza uma conexção com as configurações encontradas do database.yml
       #Busca toda a estrutura da base de dados
@@ -29,15 +30,34 @@ module Getna
       # * Nome do banco, usuario, senha, endereço, 
       # * adaptador(mysql, postgresql...), codificação, linguagem e S.O.
       #
+      $stdout.print("\nCarregando Informações do Banco de Dados : ")
       @con = ActiveRecord::Base.connection
-       
+      $stdout.print("#{green('OK')} ")
+      
+      
+      $stdout.print("\nBuscando Tableas: ")
       #Busca todos os nomes de tabelas daquele banco de dados
       @table_names = @con.tables
+      $stdout.print("#{green('OK')} \n")
       #Deletamos tabelas que não devem ser geradas(schema_migrations) 
-      @table_names.delete("schema_migrations")  
+      @table_names.delete("schema_migrations")
+      
+      #Sessão Estatística
+      ents = @table_names.size
+      $stdout.print("\nExecutando ação para #{yellow(ents.to_s)} Tabelas.")
+      $stdout.print("\nAproximadamente  #{yellow((ents*9+3).to_s)} Arquivos e #{yellow((ents*1+1).to_s)} Diretórios serão Gerados/Deletados.  \n\n\n")
+
+        
+        
        
       @relationship  = Hash.new
       @table_names.each{|table|   @relationship.store(table,[]) }
+      
+      #Iniciando identificação de relacionamentos
+      has_many_through
+      $stdout.print("\n REL\n")
+      @relationship.each_pair {|key, value| $stdout.print("#{key} => #{value}\n") }
+      
     end
     
     
@@ -55,7 +75,7 @@ module Getna
     #--
     #  O que nosso método realiza neste ponto é pegar varchar e converter para text_field
     #  e boolean em check_box.
-    #
+    # 
     # == Parametros
     #  É necessário passar apenas o nome da tabela para que seja feito o processo.
     #   to_view('nome_da_tabela')
@@ -90,15 +110,26 @@ module Getna
       @con.columns(table_name)      
     end
     
-   #@table_names =  ["cidades", "contatos", "departamentos", "dominios", "equipamentos", "grupo_usuarios", "grupos", "localidade_rotas", "localidades", "mailboxes", "menus", "ordem_servicos", "rotas", "usuarios"]
+ #=======================================================#
+#Sessão De Identificação de Relacionamentos NxN    
+def test(table)
+  decomp_tables = decompounds(table)
+  puts "Composto: #{table}"
+ tables_exist?(decomp_tables) ? (puts "Tabelas Existem") : (puts "Tabelas Não Existem")
+has_nxn_keys?(decomp_tables, table) ? (puts "Chaves OK"):(puts "Chaves FAIL")
+   (tables_exist?(decomp_tables) and has_nxn_keys?(decomp_tables, table)) ? (puts "GRAVAR") : (puts "OPS")
+end
     
-
     def has_many_through
-      
       @table_names.each do |table| 
         if (decomp_tables = decompounds(table))
-          if  tables_exist?(decomp_tables) && has_nxn_keys?(decomp_tables, table)
-               create_relation_nxn_for(decomp_tables,table)
+         # test(table)
+          if  (tables_exist?(decomp_tables)) 
+            puts "Tabela Exist"
+                if (has_nxn_keys?(decomp_tables, table))
+                  puts "YES KEYS"
+                      create_relation_nxn_for(decomp_tables,table)
+                end
           end 
           end   #END:: if Decomp_tables
         end #END Table Names Each
@@ -108,40 +139,51 @@ module Getna
     
     def decompounds(word)
       is_compounds = word.match(/(.*)_+(.*)/)
-      decompoundeds = word.split('_') if is_compounds
+      decompoundeds = word.split('_').collect{|table| table.pluralize} if is_compounds
       decompoundeds || false
     end
     
        #FIXME Fazendo com tabelas formadas de nomes compostos EX: Line_Itens 
     def tables_exist?(tables)
      tables.each do |table|
-      @table_names.include?(tables.pluralize)
+      @table_names.include?(table)
      end
     end
     
     def has_nxn_keys?(rel_tables, thr_table)
      table_w_keys = []
       columns(thr_table).each do |attr|
+        puts "Atributo: #{attr.name} " +(attr.name.match(/\A(.*_id)\z/) ? "é Chave" : "Não é chave")
+        
         if(attr.name.match(/\A(.*_id)\z/))
           table_w_keys.push(attr.name.chomp('_id').pluralize)
         end        
       end   
-    table_w_keys.each{|table| rel_tables.delete(table)}   
+    table_w_keys.each{|table| rel_tables.delete(table)}  
+   #puts "TABLE_W_KEYS IS #{table_w_keys}"    
+    puts "REL_TABLES CONTENT #{rel_tables}"
+    puts "REL_TABLES IS EMPTY?#{rel_tables.empty?}"
     rel_tables.empty? 
   end
   
+    #Cria Relacionamento(REL_TABLE NAUM VEM)
     def create_relation_nxn_for(rel_tables,thr_table)
+      puts "\n\n=======================\n\n"
+      puts "REL_TABLE: #{rel_tables}\n"
+      my_tables = rel_tables
       rel_tables.each do |rtable|
-        rel_tables.each do |table|
+        my_tables.each do |table|
+          puts "RTable: #{rtable}\n\n"
+          puts "SHIP: #{@relationship[rtable]}\n\n"
              @relationship[rtable].push("has_many :#{table}, :through=> :#{thr_table} ") if table !=rtable
         end
-        puts "THR: #{thr_table}"
+       # puts "THR: #{thr_table}"
         @relationship[thr_table].push("belongs_to :#{rtable.singularize}")
-        puts "REL_THR: #{rtable}"
+       # puts "REL_THR: #{rtable}"
       end
       @relationship
     end
-    
+    #==  Fim Da Sessão De Identificação de Relacionamentos NxN  ====================#
     
     
        #=================================================== 
@@ -171,11 +213,18 @@ module Getna
     def start_messenger(env)
       $stdout.print("\n\n-----------  GEtna Generator #{$VERSION}  ---------\n")
       $stdout.print("_______________________________________________\n")
-      $stdout.print("\nEstabelecendo conexão: #{env} \n")
-      $stdout.print("\nCarregando Informações do Banco de Dados... \n\n")
-      $stdout.print("\nExecutado Ação... \n\n")
     end
-  
+
+    # Meétodos Responsáveis pela colorização 
+    def colorize(text, color_code)
+      "#{color_code}#{text}\e[0m"
+    end
+    def red(text); colorize(text, "\e[1;31m"); end
+    def green(text); colorize(text, "\e[1;32m"); end
+    def yellow(text); colorize(text, "\e[1;33m"); end
+
+    
+    
   end
 
   
@@ -183,7 +232,7 @@ module Getna
   
   
   
-  class Structure
+  class Utilities
     attr_accessor :hash_options_for 
     def initialize      
     end
@@ -215,8 +264,5 @@ module Getna
     end #END:: hash_options_for
 
   end
-  
-  
-
   
 end

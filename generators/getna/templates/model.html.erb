@@ -1,0 +1,5 @@
+class <%= object_name[:class] %> < ActiveRecord::Base
+<%  relationship.each do  |relation| %>
+<%=  relation %>
+<% end %>
+end

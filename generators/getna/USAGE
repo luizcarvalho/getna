@@ -1,6 +1,6 @@
 == Getna 
 
-script/generate getna env
+ script/generate getna environment options
 
 _____
 Para geração de arquivos com o Getna é necessário apenas informar as configurações 
@@ -12,37 +12,40 @@ esse fim. ex:
 
 >>database.yml
 --------------------------------------------------------------------------------
-development:
-  adapter: mysql
-  database: getna
-  username: user
-  password: pass
+ development:
+   adapter: mysql
+   database: getna
+   username: user
+   password: pass
 
-my_getna_imput
-  adapter: postgres
-  database: input
-  username: user
-  password: pass
+ my_getna_imput
+   adapter: postgres
+   database: input
+   username: user
+   password: pass
 --------------------------------------------------------------------------------
 
-PARA ISSO USAMOS
+== Executando (Sem Opções)
+
 script/generate getna development
 
 ou para o segundo caso:
 
-script/generate getna my_getna_input
+ script/generate getna my_getna_input
 
 Por Default o environment é 'delevopment'
 
-== OPÇÕES =====================
+== Opções
 
-style:
-  default
-  depot
+ style:
+   default
+   depot
+
+== Exemplos
 
  # exemplo #
-script/generate getna development style:depot
+ script/generate getna development style:depot
 
-# observação #
+ # observação #
  Caso não seja passado é assumido o estilo 'default'
 
