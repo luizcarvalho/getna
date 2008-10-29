@@ -60,7 +60,7 @@ module Getna
       
       #Iniciando identificação de relacionamentos
       has_many_through
-      @interrel.each_pair {|key, value| $stdout.print("#{key} => #{value}\n") }
+     # @interrel.each_pair {|key, value| $stdout.print("#{key} => #{value}\n") }
     end
     
     
@@ -185,8 +185,6 @@ end
     
     
     def create_interface_nxn_for(rtables, thr_table)
-      $stdout.print("\n\nRELTABLES:  #{rtables}\n\n")
-      #@interrel[thr_table]=[true]
       @interrel[thr_table]= rtables
       @interrel
     end
@@ -219,7 +217,8 @@ end
     #
     #mensagem de inicialização do gerador
     def start_messenger(env)
-      $stdout.print("\n\n-----------  GEtna Generator #{$VERSION}  ---------\n")
+       $stdout.print("________________________________________________\n")
+      $stdout.print("\n\n-----------  #{light("GEtna Generator #{$VERSION}")}  ---------\n")
       $stdout.print("_______________________________________________\n")
     end
 
@@ -227,6 +226,7 @@ end
     def colorize(text, color_code)
       "#{color_code}#{text}\e[0m"
     end
+    def light(text); colorize(text, "\e[1m"); end
     def red(text); colorize(text, "\e[1;31m"); end
     def green(text); colorize(text, "\e[1;32m"); end
     def yellow(text); colorize(text, "\e[1;33m"); end

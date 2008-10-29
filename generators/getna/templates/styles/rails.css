@@ -1,0 +1,103 @@
+  body {
+    margin: 0;
+    margin-bottom: 25px;
+    padding: 0;
+    background-color: #f0f0f0;
+    font-family: "Lucida Grande", "Bitstream Vera Sans", "Verdana";
+    font-size: 13px;
+    color: #333;
+  }
+
+  h1 {
+    font-size: 28px;
+    color: #000;
+  }
+  
+        
+  #page {
+    background-color: #f0f0f0;
+    width: 750px;
+    margin: 0;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  #content {
+    float: left;
+    background-color: white;
+    border: 3px solid #aaa;
+    border-top: none;
+    padding: 25px;
+    width: 700px;
+  }
+
+ #header {
+   padding-left: 75px;
+  padding-right: 30px;
+  padding-bottom: 35px;
+ }
+
+#tobase {
+  background-image: url("../images/getna.png");
+   background-repeat: no-repeat;
+  background-position: top left;
+   height: 64px;
+   padding-left: 64px;
+   float:left;
+}
+ 
+  #header h1{margin: 0}
+   
+a  {color: #03c}
+a:hover {
+  background-color: #03c;
+  color: white;
+  text-decoration: none;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+.fieldWithErrors {
+  padding: 2px;
+  background-color: red;
+  display: table;
+}
+
+#errorExplanation {
+  width: 400px;
+  border: 2px solid red;
+  padding: 7px;
+  padding-bottom: 12px;
+  margin-bottom: 20px;
+  background-color: #f0f0f0;
+}
+
+#errorExplanation h2 {
+  text-align: left;
+  font-weight: bold;
+  padding: 5px 5px 5px 15px;
+  font-size: 12px;
+  margin: -7px;
+  background-color: #c00;
+  color: #fff;
+}
+
+#errorExplanation p {
+  color: #333;
+  margin-bottom: 0;
+  padding: 5px;
+}
+
+#errorExplanation ul li {
+  font-size: 12px;
+  list-style: square;
+}
