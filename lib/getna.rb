@@ -8,8 +8,8 @@
 
 module Getna  
   class Base
-    attr_reader :connection,:table_names,:relationship
-    $VERSION = "0.0.5"
+    attr_reader :interrel, :table_names,:relationship
+    $VERSION = "0.1.1"
 
     def initialize (env)
       #Mensagen de inicialização do sistema de geração de codigo.
@@ -50,14 +50,17 @@ module Getna
         
         
        
+      @interrel = Hash.new 
       @relationship  = Hash.new
-      @table_names.each{|table|   @relationship.store(table,[]) }
+      
+      @table_names.each do |table|   
+        @relationship.store(table,[])
+        @interrel.store(table,[false])
+      end
       
       #Iniciando identificação de relacionamentos
       has_many_through
-      $stdout.print("\n REL\n")
-      @relationship.each_pair {|key, value| $stdout.print("#{key} => #{value}\n") }
-      
+      @interrel.each_pair {|key, value| $stdout.print("#{key} => #{value}\n") }
     end
     
     
@@ -125,10 +128,9 @@ end
         if (decomp_tables = decompounds(table))
          # test(table)
           if  (tables_exist?(decomp_tables)) 
-            puts "Tabela Exist"
                 if (has_nxn_keys?(decomp_tables, table))
-                  puts "YES KEYS"
                       create_relation_nxn_for(decomp_tables,table)
+                      create_interface_nxn_for(decomp_tables,table)
                 end
           end 
           end   #END:: if Decomp_tables
@@ -152,30 +154,26 @@ end
     
     def has_nxn_keys?(rel_tables, thr_table)
      table_w_keys = []
+     rtables = rel_tables.dclone
       columns(thr_table).each do |attr|
-        puts "Atributo: #{attr.name} " +(attr.name.match(/\A(.*_id)\z/) ? "é Chave" : "Não é chave")
+       # puts "Atributo: #{attr.name} " +(attr.name.match(/\A(.*_id)\z/) ? "é Chave" : "Não é chave")
         
         if(attr.name.match(/\A(.*_id)\z/))
           table_w_keys.push(attr.name.chomp('_id').pluralize)
         end        
       end   
-    table_w_keys.each{|table| rel_tables.delete(table)}  
-   #puts "TABLE_W_KEYS IS #{table_w_keys}"    
-    puts "REL_TABLES CONTENT #{rel_tables}"
-    puts "REL_TABLES IS EMPTY?#{rel_tables.empty?}"
-    rel_tables.empty? 
+    table_w_keys.each{|table| rtables.delete(table)}  
+    rtables.empty? 
   end
   
     #Cria Relacionamento(REL_TABLE NAUM VEM)
     def create_relation_nxn_for(rel_tables,thr_table)
-      puts "\n\n=======================\n\n"
-      puts "REL_TABLE: #{rel_tables}\n"
+      #puts "\n\n=======================\n\n"
+     # puts "REL_TABLE: #{rel_tables}\n"
       my_tables = rel_tables
       rel_tables.each do |rtable|
         my_tables.each do |table|
-          puts "RTable: #{rtable}\n\n"
-          puts "SHIP: #{@relationship[rtable]}\n\n"
-             @relationship[rtable].push("has_many :#{table}, :through=> :#{thr_table} ") if table !=rtable
+             @relationship[rtable] << "has_many :#{table}, :through=> :#{thr_table} "<< "has_many :#{thr_table} " if table !=rtable
         end
        # puts "THR: #{thr_table}"
         @relationship[thr_table].push("belongs_to :#{rtable.singularize}")
@@ -184,6 +182,16 @@ end
       @relationship
     end
     #==  Fim Da Sessão De Identificação de Relacionamentos NxN  ====================#
+    
+    
+    def create_interface_nxn_for(rtables, thr_table)
+      $stdout.print("\n\nRELTABLES:  #{rtables}\n\n")
+      #@interrel[thr_table]=[true]
+      @interrel[thr_table]= rtables
+      @interrel
+    end
+    
+    
     
     
        #=================================================== 

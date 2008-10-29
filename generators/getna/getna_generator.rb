@@ -73,14 +73,14 @@ class GetnaGenerator < Rails::Generator::NamedBase
         #app/controllers/ com o nome no Plural, passamos tambem as variáveis que devem ser mudadas
         #dentro dos Templates( Todos os NAMES acima.S ).
         #
-        m.template("controller.rb","app/controllers/#{name[:plural]}_controller.rb",:assigns=>{:object_name=>name})         
+        m.template("controller.html.erb","app/controllers/#{name[:plural]}_controller.rb",:assigns=>{:object_name=>name,:rel_props=>@geobject.interrel[table_name]})         
 
         # == GENERATE Models
          # Para cada Tabela é então copiado o template model.rb para  a pasta do projeto
         #app/models/ com o nome no Plural, passamos tambem as variáveis que devem ser mudadas
         #dentro dos Templates( Todos os NAMES acima.S ).
         #
-        m.template("model.html.erb","app/models/#{name[:single]}.rb",:assigns=>{:object_name=>name, :relationship=>@geobject.relationship['usuarios']})#["PORRA","VSF","CARAI"]})
+        m.template("model.html.erb","app/models/#{name[:single]}.rb",:assigns=>{:object_name=>name, :relationship=>@geobject.relationship[table_name]})
      
         # == GENERATE Views Directory
         # Criamos o Diretorio que vai conter as Views com o nome da tabela no plural
@@ -91,10 +91,10 @@ class GetnaGenerator < Rails::Generator::NamedBase
         #na Pasta que acabamos de gerar, utilizando seus respectivos templates view_edit.html.erb, view_index.html.erb,
         # view_show.html.erb, view_new.html.erb
         #
-        m.template("view_edit.html.erb","app/views/#{name[:plural]}/edit.html.erb",:assigns=>{:attributes=>attrs,:object_name=>name})     
+        m.template("view_edit.html.erb","app/views/#{name[:plural]}/edit.html.erb",:assigns=>{:attributes=>attrs,:object_name=>name,:if_relation_object=>@geobject.interrel[table_name][0]})     
         m.template("view_index.html.erb","app/views/#{name[:plural]}/index.html.erb",:assigns=>{:attributes=>attrs,:object_name=>name})    
         m.template("view_show.html.erb","app/views/#{name[:plural]}/show.html.erb",:assigns=>{:attributes=>attrs,:object_name=>name})               
-        m.template("view_new.html.erb","app/views/#{name[:plural]}/new.html.erb",:assigns=>{:attributes=>attrs,:object_name=>name})         
+        m.template("view_new.html.erb","app/views/#{name[:plural]}/new.html.erb",:assigns=>{:attributes=>attrs,:object_name=>name,:if_relation_object=>@geobject.interrel[table_name][0]})         
         
         # == GENERATE Routes
         # Geramos a rota para cada objeto gerado.

@@ -145,7 +145,6 @@ class CreateSampleDb < ActiveRecord::Migration
       t.integer :numero, :null => false
       t.datetime :data_saida, :null => false
       t.datetime :data_retorno, :null => false
-      t.references :localidade, :null => false
       t.string :transporte
       t.string :previsao_km
       t.string :tecnico, :null => false

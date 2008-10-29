@@ -5,8 +5,10 @@
 <%% form_for(@<%= object_name[:single] %>) do |f| %>
 <% for attribute in attributes -%>
   <p>
-    <b><%= attribute[:name].humanize %></b><br />
-    <%%= f.<%= attribute[:type] %> :<%= attribute[:name] %> %>
+    <b><%= attribute[:name].humanize %></b><br />   
+    <% if(collection = attribute[:name].match(/\A(.*)_id\z/) and if_relation_object )   %>
+    <%%= f.select :<%=attribute[:name] %>,@<%= collection.captures.to_s.pluralize %>,{:prompt=>"Selecione uma Opção"} %> <% else %>   
+    <%%= f.<%= attribute[:type] %> :<%= attribute[:name]%> %><% end %>     
   </p>
 
 <% end -%>
