@@ -1,6 +1,6 @@
 == Getna 
 
- script/generate getna environment options
+ script/generate getna [environment] [opções]
 
 _____
 Para geração de arquivos com o Getna é necessário apenas informar as configurações 
@@ -40,6 +40,7 @@ Por Default o environment é 'delevopment'
  style:
    default
    depot
+   rails
 
 == Exemplos
 

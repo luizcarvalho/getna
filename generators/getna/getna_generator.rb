@@ -19,6 +19,7 @@ class GetnaGenerator < Rails::Generator::NamedBase
     super
    # Instânciamos o Objeto GEtna com as infomações do Banco de dados
    @geobject = Getna::Base.new(@name)
+
    #instâncimamos Objeto Getna::Utilities para tratarmos a entrada
    @utility = Getna::Utilities.new
 
