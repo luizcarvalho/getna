@@ -116,22 +116,15 @@ module Getna
         
     #=================================================== 
     #Retorna os atributos de cada tabela dentro de um array, nesse array contém 
-    # todas as informações sobre esse atributo, como: nome, tipo e tamanho
-  
+    # todas as informações sobre esse atributo, como: nome, tipo e tamanho  
     def columns(table_name)
       @con.columns(table_name)      
     end
     
     #=======================================================#
     #Sessão De Identificação de Relacionamentos NxN    
-    def test(table)
-      decomp_tables = decompounds(table)
-      puts "Composto: #{table}"
-      tables_exist?(decomp_tables) ? (puts "Tabelas Existem") : (puts "Tabelas Não Existem")
-      has_nxn_keys?(decomp_tables, table) ? (puts "Chaves OK"):(puts "Chaves FAIL")
-      (tables_exist?(decomp_tables) and has_nxn_keys?(decomp_tables, table)) ? (puts "GRAVAR") : (puts "OPS")
-    end
-    
+
+    #Método que seta todas as variáveis com os Relacionamentos encontrados
     def has_many_through
       @table_names.each do |table| 
         if (decomp_tables = decompounds(table))
@@ -147,7 +140,8 @@ module Getna
         
     end #END Has Many Throught
       
-    
+    #Decompõe o nome de uma tabela composta retornando um array
+    # com os nomes das tabelas que formaram o nome de entrada.
     def decompounds(word)
       is_compounds = word.match(/(.*)_+(.*)/)
       decompoundeds = word.split('_').collect{|table| table.pluralize} if is_compounds
@@ -155,11 +149,29 @@ module Getna
     end
     
     #FIXME Fazendo com tabelas formadas de nomes compostos EX: Line_Itens 
+    #ENTRADA: Array com nome das tabelas
+    #Retorna true se todas existirem e false se não
     def tables_exist?(tables)
+      exist = false
       tables.each do |table|
-        @table_names.include?(table)
+        exist = (exist and @table_names.include?(table))
       end
+      exist
     end
+    
+    #
+    #== Descricão
+    # Verifica, uma tabela composta, se ela possui as chaves estrangeiras 
+    # referêntes a elas.
+    #
+    #== Entrada
+    #- array com nomes da tabela
+    #- nome da tabela composta
+    #
+    #== Retorna
+    #true se sim, e false caso contrário
+    #
+    #
     
     def has_nxn_keys?(rel_tables, thr_table)
       table_w_keys = []
