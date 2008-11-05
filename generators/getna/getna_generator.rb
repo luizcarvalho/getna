@@ -68,7 +68,6 @@ class GetnaGenerator < Rails::Generator::NamedBase
         name[:class_plural] = table_name.camelize
         attrs = @geobject.to_view(table_name)
         
-        
         # ==GENERATE Controllers
         # Para cada Tabela é então copiado o template controller.rb para  a pasta do projeto
         #app/controllers/ com o nome no Plural, passamos tambem as variáveis que devem ser mudadas
@@ -81,7 +80,7 @@ class GetnaGenerator < Rails::Generator::NamedBase
         #app/models/ com o nome no Plural, passamos tambem as variáveis que devem ser mudadas
         #dentro dos Templates( Todos os NAMES acima.S ).
         #
-        m.template("model.html.erb","app/models/#{name[:single]}.rb",:assigns=>{:object_name=>name, :relationship=>@geobject.relationship[table_name]})
+        m.template("model.html.erb","app/models/#{name[:single]}.rb",:assigns=>{:object_name=>name, :relationship=>@geobject.relationship[table_name],:validations=>@geobject.validations[table_name]})
      
         # == GENERATE Views Directory
         # Criamos o Diretorio que vai conter as Views com o nome da tabela no plural

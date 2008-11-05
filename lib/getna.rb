@@ -8,8 +8,10 @@
 
 module Getna  
   class Base
-    attr_reader :interrel, :table_names,:relationship
+
+    attr_reader :interrel, :table_names,:relationship, :validations
     $VERSION = "0.2.0"
+
 
     def initialize (env)
       #Mensagen de inicialização do sistema de geração de codigo.
@@ -57,18 +59,25 @@ module Getna
 
 
         
-       
+      #Guarda informações sobre Relacionamentos para ser utilizada nas Views
       @interrel = Hash.new 
+      #Guarda Informações sobre relacionamentos para ser utilizados nos Models
       @relationship  = Hash.new
+      #Guarda informações sobre Atributos de tabelas. Utilizado em Validações nos Models
+      @validations = Hash.new
       
+      #inicia Variáveis com a estrutura Necessária 
       @table_names.each do |table|   
         @relationship.store(table,[])
         @interrel.store(table,[false])
+        @validations.store(table,[])
       end
-
+#$stdout.print("STAGE 1\n")
       #Iniciando identificação de relacionamentos
       has_many_through
       has_many
+      create_validations
+
       # @interrel.each_pair {|key, value| $stdout.print("#{key} => #{value}\n") }
     end
     
@@ -212,38 +221,68 @@ module Getna
     #- adicionamos, para aquela tabela, o relacionamento Nx1
     
     def has_many
-          @table_names.each do |table| 
-                if (rel_tables = has_keys?(table))
-                  create_relation_nxone_for(table, rel_tables)
-                  create_interface_nxone_for(table, rel_tables)
-            end   #END:: if has_keys?
-          end #END Table Names Each
-        end #END Has Many Throught
+      @table_names.each do |table| 
+        if (rel_tables = has_keys?(table))
+          create_relation_nxone_for(table, rel_tables)
+          create_interface_nxone_for(table, rel_tables)
+        end   #END:: if has_keys?
+      end #END Table Names Each
+    end #END Has Many Throught
     
     
-     def create_relation_nxone_for(table, rel_tables)
+    def create_relation_nxone_for(table, rel_tables)
       rel_tables
       rel_tables.each do |rtable|        
         @relationship[table] << "has_many :#{rtable}" 
         @relationship[rtable].push("belongs_to :#{table.singularize}")
-       end
+      end
       @relationship
-     end  
-
-     
-     def create_interface_nxone_for(table, rel_tables)
+    end  
+    
+    def create_interface_nxone_for(table, rel_tables)
       @interrel[table]= rel_tables
       @interrel
-     end
+    end
 
-    
     
     #== Fim Da Sessão de Identificação de Relacionamento Nx1 ======================#
     
+    def create_validations
+      @table_names.each do |name|
+        columns(name).each do |attr|
+          @validations[name].concat(build_validations(attr.name,attr))
+        end
+      end
+    end
     
+    def build_validations(name,attr)
+      validations = []
+      unnesscesary = (name=='id' or attr.type.to_s == 'boolean')
+      
+      unless unnesscesary
+        
+        if attr.null != true
+          validations.push("validates_presence_of :#{name}, :message=>\"não pode ficar em branco!\"")
+        end #fim null
+        
+        if !is_key?(name)
+          
+          if attr.limit != nil
+            validations.push("validates_length_of  :#{name}, :maximum=>#{attr.limit}, :message=>\"não pode exeder os #{attr.limit} caracteres!\"")
+          end #fim IF limit
     
+          if attr.type.to_s == "integer"
+            validations.push("validates_numericality_of  :#{name}, :message=>\"deve ser numérico!\"")
+          end# Fim IF Type
+        end#fim IF isKEY
+      end #Unnesses
+      validations
+    end #FIM METODO
     
-    
+    def is_key?(key)
+      res = key.match(/\A(.*_id)\z/)
+      !res.nil?
+    end
     
     
     #++++++++++++++++++++++++++++++++++++++++++++++++++++++++++#
@@ -260,7 +299,7 @@ module Getna
     def has_keys?(table)
       table_w_keys =[]
       columns(table).each do |attr|
-        if(attr.name.match(/\A(.*_id)\z/))
+        if(is_key?(attr.name))
           table_w_keys.push(attr.name.chomp('_id').pluralize)
         end        
       end   
