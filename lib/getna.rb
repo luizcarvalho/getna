@@ -9,7 +9,7 @@
 module Getna  
   class Base
     attr_reader :interrel, :table_names,:relationship
-    $VERSION = "0.1.1"
+    $VERSION = "0.2.0"
 
     def initialize (env)
       #Mensagen de inicialização do sistema de geração de codigo.
