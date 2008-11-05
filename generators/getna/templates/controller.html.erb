@@ -39,6 +39,11 @@ end
 # GET /<%= object_name[:plural]  %>/1/edit
 def edit
 @<%= object_name[:single]  %> = <%= object_name[:class] %>.find(params[:id])
+<% if rel_props[0] %>
+<% rel_props.each do |ents| -%>
+@<%= ents %> = <%= ents.singularize.camelize%>.find(:all).collect{|obj| [obj.id,obj.id]}
+<% end %>
+<% end %>
 end
 
 # POST /<%= object_name[:plural]  %>
@@ -52,6 +57,11 @@ flash[:notice] = '<%= object_name[:single].humanize  %> foi cadastrado com suces
 format.html { redirect_to(@<%= object_name[:single]  %>) }
 format.xml  { render :xml => @<%= object_name[:single]  %>, :status => :created, :location => @<%= object_name[:single]  %> }
 else
+<% if rel_props[0] %>
+<% rel_props.each do |ents| -%>
+@<%= ents %> = <%= ents.singularize.camelize%>.find(:all).collect{|obj| [obj.id,obj.id]}
+<% end %>
+<% end %>
 format.html { render :action => "new" }
 format.xml  { render :xml => @<%= object_name[:single]  %>.errors, :status => :unprocessable_entity }
 end
@@ -70,6 +80,11 @@ format.html { redirect_to(@<%= object_name[:single]  %>) }
 
 format.xml  { head :ok }
 else
+<% if rel_props[0] %>
+<% rel_props.each do |ents| -%>
+@<%= ents %> = <%= ents.singularize.camelize%>.find(:all).collect{|obj| [obj.id,obj.id]}
+<% end %>
+<% end %>
 format.html { render :action => "edit" }
 format.xml  { render :xml => @<%= object_name[:single]  %>.errors, :status => :unprocessable_entity }
 end

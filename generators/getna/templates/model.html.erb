@@ -1,5 +1,12 @@
 class <%= object_name[:class] %> < ActiveRecord::Base
+#Relacionamentos
 <%  relationship.each do  |relation| %>
 <%=  relation %>
+<% end %>
+
+
+#Validações
+<% validations.each do |validate| %>
+<%= validate %>
 <% end %>
 end
