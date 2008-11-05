@@ -57,18 +57,24 @@ module Getna
 
 
         
-       
+      #Guarda informações sobre Relacionamentos para ser utilizada nas Views
       @interrel = Hash.new 
+      #Guarda Informações sobre relacionamentos para ser utilizados nos Models
       @relationship  = Hash.new
+      #Guarda informações sobre Atributos de tabelas. Utilizado em Validações nos Models
+      @validations
       
+      #inicia Variáveis com a estrutura Necessária 
       @table_names.each do |table|   
         @relationship.store(table,[])
         @interrel.store(table,[false])
+        @validations.store(table,{})
       end
 
       #Iniciando identificação de relacionamentos
       has_many_through
       has_many
+     # create_validations
       # @interrel.each_pair {|key, value| $stdout.print("#{key} => #{value}\n") }
     end
     
@@ -212,35 +218,40 @@ module Getna
     #- adicionamos, para aquela tabela, o relacionamento Nx1
     
     def has_many
-          @table_names.each do |table| 
-                if (rel_tables = has_keys?(table))
-                  create_relation_nxone_for(table, rel_tables)
-                  create_interface_nxone_for(table, rel_tables)
-            end   #END:: if has_keys?
-          end #END Table Names Each
-        end #END Has Many Throught
+      @table_names.each do |table| 
+        if (rel_tables = has_keys?(table))
+          create_relation_nxone_for(table, rel_tables)
+          create_interface_nxone_for(table, rel_tables)
+        end   #END:: if has_keys?
+      end #END Table Names Each
+    end #END Has Many Throught
     
     
-     def create_relation_nxone_for(table, rel_tables)
+    def create_relation_nxone_for(table, rel_tables)
       rel_tables
       rel_tables.each do |rtable|        
         @relationship[table] << "has_many :#{rtable}" 
         @relationship[rtable].push("belongs_to :#{table.singularize}")
-       end
+      end
       @relationship
-     end  
-
-     
-     def create_interface_nxone_for(table, rel_tables)
+    end  
+    
+    def create_interface_nxone_for(table, rel_tables)
       @interrel[table]= rel_tables
       @interrel
-     end
+    end
 
-    
     
     #== Fim Da Sessão de Identificação de Relacionamento Nx1 ======================#
     
-    
+    def create_validations
+      @table_names.each do |name|
+        columns(name).each do |attr|
+          @validations[name].store(:name=>attr.name)
+          
+        end
+      end
+    end
     
     
     
