@@ -1,13 +1,13 @@
-class Create<%=name[:class_plural] %>    < ActiveRecord::Migration
+class Create<%=object_name[:class_plural] %> < ActiveRecord::Migration
   def self.up
-  create_table <%=name[:plural]  %>, :force => true do |t|
-  <%  attrs.each do |attr| %>
-  t.<%= attr[:type] %> :<%= attr[:nome] if attr[:nome]%>, :limit=><%= attr[:limit] if attr[:limit]%> , :null=> <%= attr[:null] if attr[:null]%>, :default=><%= attr[:default] if attr[:default]%>
+  create_table :<%=object_name[:plural]  %>, :force => true do |t|
+  <% attributes.each do |attr| %>
+  t.<%= attr[:type] %> <%= ":#{attr[:name]}" if attr[:name]%> <%= ", :limit=>#{attr[:limit]}" if attr[:limit]%><%= ", :null=>#{attr[:null]}" if attr[:null]%><%= ", :default=>\"#{attr[:default]}\"" if attr[:default]%>
   <% end %>
     end
   end
   
   def self.down
-  drop_table : <%=  name[:plural]%>  
+  drop_table :<%=object_name[:plural]%>  
   end
 end

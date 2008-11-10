@@ -42,6 +42,8 @@ class GetnaGenerator < Rails::Generator::NamedBase
 
       # == GENERATE Diretorio de Layouts
       m.directory("app/views/layouts")
+      # == GENERATE Diretório de Migrações
+      m.directory("db/migrate")      
       # == GENERATE Stilo 
       m.file("/styles/#{@style}.css","public/stylesheets/getna.css")   
      # == COPY getna logo 
@@ -70,6 +72,7 @@ class GetnaGenerator < Rails::Generator::NamedBase
         name[:class] = table_name.singularize.camelize
         name[:class_plural] = table_name.camelize
         attrs = @geobject.to_view(table_name)
+        
         
         # ==GENERATE Controllers
         # Para cada Tabela é então copiado o template controller.rb para  a pasta do projeto
@@ -116,7 +119,7 @@ class GetnaGenerator < Rails::Generator::NamedBase
         m.template("unit_test.rb","test/unit/#{name[:single]}_test.rb",:assigns=>{:object_name=>name})
         
         #GENERATE Migrations
-         m.migration_template 'migration.html.erb', 'db/migrate', :migration_file_name=>"create_#{name[:single]}"
+        m.template 'migration.html.erb', "db/migrate/#{@geobject.table_id[name[:plural]]}_create_#{name[:plural]}.rb", :assigns=>{:attributes=>@geobject.to_migrate(name[:plural]),:object_name=>name}
       
       end #END:: Each Table Name
 

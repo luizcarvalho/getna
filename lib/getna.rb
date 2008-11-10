@@ -9,8 +9,8 @@
 module Getna  
   class Base
 
-    attr_reader :interrel, :table_names,:relationship, :validations
-    $VERSION = "0.2.5"
+    attr_reader :interrel, :table_names,:relationship, :validations, :table_id
+    $VERSION = "0.3.0"
 
 
     def initialize (env)
@@ -65,12 +65,17 @@ module Getna
       @relationship  = Hash.new
       #Guarda informações sobre Atributos de tabelas. Utilizado em Validações nos Models
       @validations = Hash.new
+      #Guarda um identificador para cada tabela
+      @table_id = Hash.new
       
+
+      next_id = 0
       #inicia Variáveis com a estrutura Necessária 
       @table_names.each do |table|   
         @relationship.store(table,[])
         @interrel.store(table,[false])
         @validations.store(table,[])
+        @table_id.store(table,(next_id+=1).to_s.rjust(3, '0'))
       end
 #$stdout.print("STAGE 1\n")
       #Iniciando identificação de relacionamentos
@@ -285,6 +290,61 @@ module Getna
     end
     
     
+    
+    
+    
+#==============================  MIGRAÇÕES ==========================================
+#====================================================================================
+#attr_migrate = [{:name=>"idade",:typo=>"integer",:null=>false, limit=>2,:default=>false},{:name=>false, type=>"timestamps",:null=>false,:limit=>false,:default=false}]
+#
+#template do objeto
+#{:name=>false,:type=>false,:limit=>false, :null=>false, :default=>false}
+#
+# Cria-se duas Migrações Defaults
+#* References (para chaves estrangeiras- sufixo "_id")
+#{:name=>attr_name,:type=>references,:limit=>false, :null=>false, :default=>false}
+#
+#* Time Stamps (caso ache created_at e updated_at)
+#{:name=>false, type=>"timestamps",:null=>false,:limit=>false,:default=false}
+#    
+    def to_migrate(table_name)
+      attr_migrate = []
+      #Exceções, são campos da tabela que não necessitam ser gerados
+      exceptions = ["id","created_at","updated_at"]
+      
+      #Método que busca os atributos de cada tabela
+      attrs = columns(table_name)  
+      timestamps = []
+      
+      attrs.each do |att|         
+        attr_migrate.push({
+            :name =>att.name,
+            :type=>att.type.to_s,
+            :limit=>(att.limit.nil? ? false : att.limit.to_s),
+            :null=>(att.null ? false : "false"),
+            :default=>(att.default.nil? ? false : att.default.to_s)
+         }) if !exceptions.include?(att.name) and !is_key?(att.name)
+       
+        if is_key?(att.name)
+          attr_migrate.push({:name=>att.name.chomp('_id'),:type=>"references",:limit=>false, :null=>"false", :default=>false})
+        end        
+        
+        timestamps.push(att.name) if ["created_at","updated_at"].include?(att.name)   
+        
+      end     
+    
+      if timestamps.size == 2
+        attr_migrate.push({:name=>false, :type=>"timestamps",:null=>false,:limit=>false,:default=>false})
+      end
+      
+      
+    attr_migrate
+    end
+    
+    
+    
+    
+    
     #++++++++++++++++++++++++++++++++++++++++++++++++++++++++++#
     #=== Métodos Comuns aos Relacionamentos ===============================#
     
@@ -306,44 +366,6 @@ module Getna
       table_w_keys
     end
 
-    
-    #
-#attr_migrate = [{:nome=>"idade",:typo=>"integer",:null=>false, limit=>2,:default=>false},{:nome=>false, type=>"timestamps",:null=>false,:limit=>false,:default=false}]
-#
-#template do objeto
-#{:nome=>false,:type=>false,:limit=>false, :null=>false, :default=>false}
-#
-# Cria-se duas Migrações Defaults
-#* References (para chaves estrangeiras- sufixo "_id")
-#{:nome=>attr_nome,:type=>references,:limit=>false, :null=>false, :default=>false}
-#
-#* Time Stamps (caso ache created_at e updated_at)
-#{:nome=>false, type=>"timestamps",:null=>false,:limit=>false,:default=false}
-#
-
-    
-    
-    def to_migrate(table_name)
-      attr_migrate = []
-      #Exceções, são campos da tabela que não necessitam ser gerados
-      exceptions = ["created_at","updated_at"]
-      
-      #Método que busca os atributos de cada tabela
-      attrs = columns(table_name)  
-
-      
-      attrs.each do |att| 
-        attr_migrate.push({:name =>att.name,:type=>type_for_tag(att.type.to_s)}) if !exceptions.include?(att.name)  
-      end     
-      attr_migrate
-    end
-    
-    
-    
-    
-    
-    
-    
     
     
     
