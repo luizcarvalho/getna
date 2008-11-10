@@ -51,6 +51,9 @@ class GetnaGenerator < Rails::Generator::NamedBase
       #TODO colocar imagem do GEtna
       m.template("index.html.erb","public/index.html",:assigns=>{:entities =>@geobject} ,:collision => :force)   
 
+           
+      
+      
       #
       #Para Cada tabela do banco colocamos em nosso Hash 
       # * Name:Singular: Nome do Tabela no Singular
@@ -111,7 +114,9 @@ class GetnaGenerator < Rails::Generator::NamedBase
 
         #CREATE Testes Unitários
         m.template("unit_test.rb","test/unit/#{name[:single]}_test.rb",:assigns=>{:object_name=>name})
-
+        
+        #GENERATE Migrations
+         m.migration_template 'migration.html.erb', 'db/migrate', :migration_file_name=>"create_#{name[:single]}"
       
       end #END:: Each Table Name
 

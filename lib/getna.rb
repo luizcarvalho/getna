@@ -30,7 +30,7 @@ module Getna
       end
       
       #Estabelece Conheção de acordo com o tipo de Enviroment(production,development,teste ou outo)
-      $stdout.print("\nEstabelecendo conexão com Banco#{conf[env]['database']}: ")
+      $stdout.print("\nEstabelecendo conexão com Banco  #{conf[env]['database']}: ")
       ActiveRecord::Base.establish_connection(conf[env])
       $stdout.print("#{green('OK')} ")
 
@@ -45,7 +45,7 @@ module Getna
       $stdout.print("#{green('OK')} ")
       
       
-      $stdout.print("\nBuscando Tableas: ")
+      $stdout.print("\nBuscando Tabelas: ")
       #Busca todos os nomes de tabelas daquele banco de dados
       @table_names = @con.tables
       $stdout.print("#{green('OK')} \n")
@@ -307,12 +307,48 @@ module Getna
     end
 
     
-    
-    
-    
-    #=================================================== 
+    #
+#attr_migrate = [{:nome=>"idade",:typo=>"integer",:null=>false, limit=>2,:default=>false},{:nome=>false, type=>"timestamps",:null=>false,:limit=>false,:default=false}]
+#
+#template do objeto
+#{:nome=>false,:type=>false,:limit=>false, :null=>false, :default=>false}
+#
+# Cria-se duas Migrações Defaults
+#* References (para chaves estrangeiras- sufixo "_id")
+#{:nome=>attr_nome,:type=>references,:limit=>false, :null=>false, :default=>false}
+#
+#* Time Stamps (caso ache created_at e updated_at)
+#{:nome=>false, type=>"timestamps",:null=>false,:limit=>false,:default=false}
+#
 
- 
+    
+    
+    def to_migrate(table_name)
+      attr_migrate = []
+      #Exceções, são campos da tabela que não necessitam ser gerados
+      exceptions = ["created_at","updated_at"]
+      
+      #Método que busca os atributos de cada tabela
+      attrs = columns(table_name)  
+
+      
+      attrs.each do |att| 
+        attr_migrate.push({:name =>att.name,:type=>type_for_tag(att.type.to_s)}) if !exceptions.include?(att.name)  
+      end     
+      attr_migrate
+    end
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    #===================================================  
     #+++++++++++++++++++++++++++++++++++++++++++++++++++   
  
     private
