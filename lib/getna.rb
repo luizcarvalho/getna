@@ -10,7 +10,7 @@ module Getna
   class Base
 
     attr_reader :interrel, :table_names,:relationship, :validations, :table_id
-    $VERSION = "0.3.5"
+    $VERSION = "0.5.0"
 
 
     def initialize (env)
