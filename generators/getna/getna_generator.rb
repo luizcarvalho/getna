@@ -31,7 +31,7 @@ class GetnaGenerator < Rails::Generator::NamedBase
 
 #TODO fazer teste se as Opções estão corretas
   options =   @utility.hash_options_for(actions)
-  @style =  options['style'] || 'default'
+  @style =  options['layout'] || 'default'
   end
 
 

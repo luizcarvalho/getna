@@ -10,7 +10,7 @@ module Getna
   class Base
 
     attr_reader :interrel, :table_names,:relationship, :validations, :table_id
-    $VERSION = "0.3.0"
+    $VERSION = "0.3.5"
 
 
     def initialize (env)
@@ -138,11 +138,22 @@ module Getna
     #=======================================================#
     #Sessão De Identificação de Relacionamentos NxN    
 
+#    def test(table)      
+#      decomp_tables = decompounds(table)      
+#      puts "Composto: #{table}"      
+#      tables_exist?(decomp_tables) ? (puts "Tabelas Existem") : (puts "Tabelas Não Existem")      
+#      has_nxn_keys?(decomp_tables, table) ? (puts "Chaves OK"):(puts "Chaves FAIL")      
+#      (tables_exist?(decomp_tables) and has_nxn_keys?(decomp_tables, table)) ? (puts "GRAVAR") : (puts "Não CRIOU!")      
+#    end
+#    
+    
+    
+    
     #Método que seta todas as variáveis com os Relacionamentos encontrados
     def has_many_through
       @table_names.each do |table| 
         if (decomp_tables = decompounds(table))
-          # test(table)
+           #test(table)
           if  (tables_exist?(decomp_tables)) 
             if (has_nxn_keys?(decomp_tables, table))
               create_relation_nxn_for(decomp_tables,table)
@@ -166,7 +177,8 @@ module Getna
     #ENTRADA: Array com nome das tabelas
     #Retorna true se todas existirem e false se não
     def tables_exist?(tables)
-      exist = false
+      #$stdout.ptinf("TABELAS: #{tables}\n")
+      exist = tables.blank? ? false : true
       tables.each do |table|
         exist = (exist and @table_names.include?(table))
       end
@@ -227,7 +239,7 @@ module Getna
     
     def has_many
       @table_names.each do |table| 
-        if (rel_tables = has_keys?(table))
+        if ((rel_tables = has_keys?(table)) and (!tables_exist?(decompounds(table) || [])))
           create_relation_nxone_for(table, rel_tables)
           create_interface_nxone_for(table, rel_tables)
         end   #END:: if has_keys?
@@ -320,13 +332,13 @@ module Getna
         attr_migrate.push({
             :name =>att.name,
             :type=>att.type.to_s,
-            :limit=>(att.limit.nil? ? false : att.limit.to_s),
-            :null=>(att.null ? false : "false"),
-            :default=>(att.default.nil? ? false : att.default.to_s)
+            :limit=>(att.limit.nil? ? nil : att.limit.to_s),
+            :null=>(att.null ? nil : "false"),
+            :default=>(att.default.nil? ? nil : ((att.type.to_s == "boolean")? att.default : ( "\"#{att.default}\"")))
          }) if !exceptions.include?(att.name) and !is_key?(att.name)
        
         if is_key?(att.name)
-          attr_migrate.push({:name=>att.name.chomp('_id'),:type=>"references",:limit=>false, :null=>"false", :default=>false})
+          attr_migrate.push({:name=>att.name.chomp('_id'),:type=>"references",:limit=>nil, :null=>nil, :default=>nil})
         end        
         
         timestamps.push(att.name) if ["created_at","updated_at"].include?(att.name)   
@@ -334,7 +346,7 @@ module Getna
       end     
     
       if timestamps.size == 2
-        attr_migrate.push({:name=>false, :type=>"timestamps",:null=>false,:limit=>false,:default=>false})
+        attr_migrate.push({:name=>nil, :type=>"timestamps",:null=>nil,:limit=>nil,:default=>nil})
       end
       
       

@@ -2,7 +2,7 @@ class Create<%=object_name[:class_plural] %> < ActiveRecord::Migration
   def self.up
   create_table :<%=object_name[:plural]  %>, :force => true do |t|
   <% attributes.each do |attr| %>
-  t.<%= attr[:type] %> <%= ":#{attr[:name]}" if attr[:name]%> <%= ", :limit=>#{attr[:limit]}" if attr[:limit]%><%= ", :null=>#{attr[:null]}" if attr[:null]%><%= ", :default=>\"#{attr[:default]}\"" if attr[:default]%>
+  t.<%= attr[:type] %> <%= ":#{attr[:name]}" unless attr[:name].nil?%> <%= ", :limit=>#{attr[:limit]}" unless attr[:limit].nil? %><%= ", :null=>#{attr[:null]}" unless attr[:null].nil? %><%= ", :default=>#{attr[:default]}" unless attr[:default].nil? %>
   <% end %>
     end
   end
