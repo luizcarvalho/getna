@@ -105,7 +105,8 @@ class GetnaGenerator < Rails::Generator::NamedBase
         # == GENERATE Routes
         # Geramos a rota para cada objeto gerado.
         #
-        m.route_resources name[:plural]
+        # Adicionado funcao para verificar se a rota ja existe. (by Silvio)
+        m.route_resources name[:plural] unless File.read("config/routes.rb").index(name[:plural])
       
         # == GENERATE Layout
         # Geramos a layouts para cada objeto gerado.

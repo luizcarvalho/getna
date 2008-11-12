@@ -88,7 +88,7 @@ e... pronto! dificil neh?
 Agora vamos ao nosso gerador :)
 digite o seguinte comando em seu projeto Rails.
 
- scritp/generate getna development
+ script/generate getna development
 
 e SHAZAANN!!
 Seu projeto foi gerado e está pronto para ser usado.
