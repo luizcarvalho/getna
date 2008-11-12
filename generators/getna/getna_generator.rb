@@ -118,7 +118,13 @@ class GetnaGenerator < Rails::Generator::NamedBase
 
         #CREATE Testes Unitários
         m.template("unit_test.rb","test/unit/#{name[:single]}_test.rb",:assigns=>{:object_name=>name})
-        
+
+        #CREATE Functional Tests
+        m.template("functional_test.rb","test/functional/#{name[:plural]}_controller_test.rb",:assigns=>{:object_name=>name})
+
+        #CREATE Test Fixtures
+        m.template("test_fixture.yml","test/fixtures/#{name[:plural]}.yml",:assigns=>{:attributes=>attrs})
+
         #GENERATE Migrations
         m.template 'migration.html.erb', "db/migrate/#{@geobject.table_id[name[:plural]]}_create_#{name[:plural]}.rb", :assigns=>{:attributes=>@geobject.to_migrate(name[:plural]),:object_name=>name}
       

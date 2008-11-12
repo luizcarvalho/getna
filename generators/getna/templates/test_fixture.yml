@@ -1,0 +1,11 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+<% for attribute in attributes -%>
+  <%= attribute[:name] %>: <%= attribute[:fixture] %>
+<% end -%>
+
+two:
+<% for attribute in attributes -%>
+  <%= attribute[:name] %>: <%= attribute[:fixture] %>
+<% end -%>

@@ -120,8 +120,9 @@ module Getna
       attrs = columns(table_name)  
       #Inicia o processo de criação da estrutura formando pares de nome do atributo e tipo do atributo
       # caso este não esteja na lista de exceções
-      attrs.each do |att| 
-        attr_view.push({:name =>att.name,:type=>type_for_tag(att.type.to_s)}) if !exceptions.include?(att.name)  
+      #Adicionado variavel :fixture para ser usada na criacao dos Tests Fixtures. (by Silvio)
+      attrs.each do |att|
+        attr_view.push({:name =>att.name,:type=>type_for_tag(att.type.to_s),:fixture=>default_for_value_fixture(att.default,att.type.to_s)}) if !exceptions.include?(att.name)
       end     
       attr_view
     end
@@ -336,7 +337,7 @@ module Getna
             :null=>(att.null ? nil : "false"),
             :default=>(att.default.nil? ? nil : ((att.type.to_s == "boolean")? att.default : ( "\"#{att.default}\"")))
          }) if !exceptions.include?(att.name) and !is_key?(att.name)
-       
+
         if is_key?(att.name)
           attr_migrate.push({:name=>att.name.chomp('_id'),:type=>"references",:limit=>nil, :null=>nil, :default=>nil})
         end        
@@ -398,6 +399,24 @@ module Getna
         "datetime"=>"date_select"
       }      
       tag[type]      
+    end
+
+    #===========================================================
+    #Retorna tipos de dados para Text Fixtures com base nos
+    #valores default e type column. Recebe esses dois parametros
+    #e verifica se default for nil, usa o type column como valor
+    #convertido para valores que seguem o padrao scaffold,
+    #caso contrario o default e usado como valor. (by Silvio)
+    def default_for_value_fixture(default_value,type)
+      tag ={
+        "string"=>"MyString",
+        "integer"=>"MyInteger",
+        "boolean"=>"MyBoolean",
+        "text"=>"MyText",
+        "references"=>"MyText",
+        "datetime"=>DateTime.now.strftime(fmt="%Y-%m-%d %H:%M:%S")
+      }
+      default_value.nil? ? tag[type] : default_value
     end
     
     

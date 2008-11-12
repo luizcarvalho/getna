@@ -1,10 +1,10 @@
-require File.dirname(__FILE__) + '<%= '/..' * class_nesting_depth %>/../test_helper'
+require File.dirname(__FILE__) + '/../test_helper'
 
-class <%= controller_class_name %>ControllerTest < ActionController::TestCase
+class <%= object_name[:class_plural] %>ControllerTest < ActionController::TestCase
   def test_should_get_index
     get :index
     assert_response :success
-    assert_not_nil assigns(:<%= table_name %>)
+    assert_not_nil assigns(:<%=object_name[:plural] %>)
   end
 
   def test_should_get_new
@@ -12,34 +12,34 @@ class <%= controller_class_name %>ControllerTest < ActionController::TestCase
     assert_response :success
   end
 
-  def test_should_create_<%= file_name %>
-    assert_difference('<%= class_name %>.count') do
-      post :create, :<%= file_name %> => { }
+  def test_should_create_<%=object_name[:single] %>
+    assert_difference('<%=object_name[:class] %>.count') do
+      post :create, :<%=object_name[:single] %> => { }
     end
 
-    assert_redirected_to <%= file_name %>_path(assigns(:<%= file_name %>))
+    assert_redirected_to <%=object_name[:single] %>_path(assigns(:<%=object_name[:single] %>))
   end
 
-  def test_should_show_<%= file_name %>
-    get :show, :id => <%= table_name %>(:one).id
+  def test_should_show_<%=object_name[:single] %>
+    get :show, :id => <%=object_name[:plural] %>(:one).id
     assert_response :success
   end
 
   def test_should_get_edit
-    get :edit, :id => <%= table_name %>(:one).id
+    get :edit, :id => <%=object_name[:plural] %>(:one).id
     assert_response :success
   end
 
-  def test_should_update_<%= file_name %>
-    put :update, :id => <%= table_name %>(:one).id, :<%= file_name %> => { }
-    assert_redirected_to <%= file_name %>_path(assigns(:<%= file_name %>))
+  def test_should_update_<%=object_name[:single] %>
+    put :update, :id => <%=object_name[:plural] %>(:one).id, :<%=object_name[:single] %> => { }
+    assert_redirected_to <%=object_name[:single] %>_path(assigns(:<%=object_name[:single] %>))
   end
 
-  def test_should_destroy_<%= file_name %>
-    assert_difference('<%= class_name %>.count', -1) do
-      delete :destroy, :id => <%= table_name %>(:one).id
+  def test_should_destroy_<%=object_name[:single] %>
+    assert_difference('<%=object_name[:class] %>.count', -1) do
+      delete :destroy, :id => <%=object_name[:plural] %>(:one).id
     end
 
-    assert_redirected_to <%= table_name %>_path
+    assert_redirected_to <%=object_name[:plural] %>_path
   end
 end
