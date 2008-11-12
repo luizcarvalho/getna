@@ -18,7 +18,7 @@ esse fim. ex:
    username: user
    password: pass
 
- my_getna_imput
+ my_getna_input
    adapter: postgres
    database: input
    username: user
@@ -37,7 +37,7 @@ Por Default o environment é 'delevopment'
 
 == Opções
 
- style:
+ layout:
    default
    depot
    rails
@@ -45,8 +45,8 @@ Por Default o environment é 'delevopment'
 == Exemplos
 
  # exemplo #
- script/generate getna development style:depot
+ script/generate getna development layout:depot
 
  # observação #
- Caso não seja passado é assumido o estilo 'default'
+ Caso não seja passado é assumido o layout 'default'
 

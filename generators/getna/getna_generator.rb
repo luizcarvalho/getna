@@ -23,13 +23,7 @@ class GetnaGenerator < Rails::Generator::NamedBase
    #instâncimamos Objeto Getna::Utilities para tratarmos a entrada
    @utility = Getna::Utilities.new
 
-    
-#   $stdout.print "STYLE: #{runtime_options[:style] }\n\n"
-#   $stdout.print "OPTIONS: #{runtime_options}\n\n"
- #  $stdout.print "ARGS:  #{ }\n\n"
-#   $stdout.print "ACTIONS:  #{actions[1] }\n\n"
-
-#TODO fazer teste se as Opções estão corretas
+    #Pega o tipo de Layout, caso não seja informado utiliza-se default
   options =   @utility.hash_options_for(actions)
   @style =  options['layout'] || 'default'
   end
