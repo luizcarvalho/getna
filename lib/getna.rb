@@ -10,7 +10,7 @@ module Getna
   class Base
 
     attr_reader :interrel, :table_names,:relationship, :validations, :table_id
-    $VERSION = "0.5.0"
+    $VERSION = "0.5.5"
 
 
     def initialize (env)
@@ -32,7 +32,7 @@ module Getna
       #Estabelece Conheção de acordo com o tipo de Enviroment(production,development,teste ou outo)
       $stdout.print("\nEstabelecendo conexão com Banco  #{conf[env]['database']}: ")
       ActiveRecord::Base.establish_connection(conf[env])
-      $stdout.print("#{green('OK')} ")
+      $stdout.print("OK ")
 
       #Realiza uma conexção com as configurações encontradas do database.yml
       #Busca toda a estrutura da base de dados
@@ -42,20 +42,20 @@ module Getna
       #
       $stdout.print("\nCarregando Informações do Banco de Dados : ")
       @con = ActiveRecord::Base.connection
-      $stdout.print("#{green('OK')} ")
+      $stdout.print("OK ")
       
       
       $stdout.print("\nBuscando Tabelas: ")
       #Busca todos os nomes de tabelas daquele banco de dados
       @table_names = @con.tables
-      $stdout.print("#{green('OK')} \n")
+      $stdout.print("OK \n")
       #Deletamos tabelas que não devem ser geradas(schema_migrations) 
       @table_names.delete("schema_migrations")
       
       #Sessão Estatística
       ents = @table_names.size
-      $stdout.print("\nExecutando ação para #{yellow(ents.to_s)} Tabelas.")
-      $stdout.print("\nAproximadamente  #{yellow((ents*9+3).to_s)} Arquivos e #{yellow((ents*1+1).to_s)} Diretórios serão Gerados/Deletados.  \n\n\n")
+      $stdout.print("\nExecutando ação para #{ents.to_s} Tabelas.")
+      $stdout.print("\nAproximadamente  #{(ents*9+3).to_s} Arquivos e #{(ents*1+1).to_s} Diretórios serão Gerados/Deletados.  \n\n\n")
 
 
         
@@ -425,20 +425,11 @@ module Getna
     #mensagem de inicialização do gerador
     def start_messenger(env)
       $stdout.print("________________________________________________\n")
-      $stdout.print("\n\n-----------  #{light("GEtna Generator #{$VERSION}")}  ---------\n")
+      $stdout.print("\n\n-----------  #{"GEtna Generator #{$VERSION}"}  ---------\n")
       $stdout.print("_______________________________________________\n")
     end
 
-    # Meétodos Responsáveis pela colorização 
-    def colorize(text, color_code)
-      "#{color_code}#{text}\e[0m"
-    end
-    def light(text); colorize(text, "\e[1m"); end
-    def red(text); colorize(text, "\e[1;31m"); end
-    def green(text); colorize(text, "\e[1;32m"); end
-    def yellow(text); colorize(text, "\e[1;33m"); end
-
-    
+  
     
   end
 
@@ -478,6 +469,23 @@ module Getna
       hash
     end #END:: hash_options_for
 
-  end
+    
+        # Meétodos Responsáveis pela colorização 
+    def colorize(text, color_code)
+      "#{color_code}#{text}\e[0m"
+    end
+    
+    def light(text); colorize(text, "\e[1m"); end
+    def red(text); colorize(text, "\e[1;31m"); end
+    def green(text); colorize(text, "\e[1;32m"); end
+    def yellow(text); colorize(text, "\e[1;33m"); end
+
+    
+    
+    
+  end #Class Utilities
+  
+  
+  
   
 end
