@@ -10,7 +10,7 @@ module Getna
   class Base
 
     attr_reader :interrel, :table_names,:relationship, :validations, :table_id
-    $VERSION = "0.5.5"
+    $VERSION = "0.6.0"
 
 
     def initialize (env)
@@ -55,7 +55,7 @@ module Getna
       #Sessão Estatística
       ents = @table_names.size
       $stdout.print("\nExecutando ação para #{ents.to_s} Tabelas.")
-      $stdout.print("\nAproximadamente  #{(ents*9+3).to_s} Arquivos e #{(ents*1+1).to_s} Diretórios serão Gerados/Deletados.  \n\n\n")
+      $stdout.print("\nAproximadamente  #{(ents*13+3).to_s} Arquivos e #{(ents*1+2).to_s} Diretórios serão Gerados/Deletados.  \n\n\n")
 
 
         
@@ -77,13 +77,12 @@ module Getna
         @validations.store(table,[])
         @table_id.store(table,(next_id+=1).to_s.rjust(3, '0'))
       end
-#$stdout.print("STAGE 1\n")
+
       #Iniciando identificação de relacionamentos
       has_many_through
       has_many
       create_validations
 
-      # @interrel.each_pair {|key, value| $stdout.print("#{key} => #{value}\n") }
     end
     
     
@@ -138,18 +137,7 @@ module Getna
     
     #=======================================================#
     #Sessão De Identificação de Relacionamentos NxN    
-
-#    def test(table)      
-#      decomp_tables = decompounds(table)      
-#      puts "Composto: #{table}"      
-#      tables_exist?(decomp_tables) ? (puts "Tabelas Existem") : (puts "Tabelas Não Existem")      
-#      has_nxn_keys?(decomp_tables, table) ? (puts "Chaves OK"):(puts "Chaves FAIL")      
-#      (tables_exist?(decomp_tables) and has_nxn_keys?(decomp_tables, table)) ? (puts "GRAVAR") : (puts "Não CRIOU!")      
-#    end
-#    
-    
-    
-    
+ 
     #Método que seta todas as variáveis com os Relacionamentos encontrados
     def has_many_through
       @table_names.each do |table| 
@@ -166,6 +154,7 @@ module Getna
         
     end #END Has Many Throught
       
+    
     #Decompõe o nome de uma tabela composta retornando um array
     # com os nomes das tabelas que formaram o nome de entrada.
     def decompounds(word)
@@ -186,6 +175,8 @@ module Getna
       exist
     end
     
+    
+    
     #
     #== Descricão
     # Verifica, uma tabela composta, se ela possui as chaves estrangeiras 
@@ -198,8 +189,7 @@ module Getna
     #== Retorna
     #true se sim, e false caso contrário
     #
-    #
-    
+    #    
     def has_nxn_keys?(rel_tables, thr_table)
       table_w_keys = []
       rtables = rel_tables.dclone
@@ -208,7 +198,20 @@ module Getna
       rtables.empty? 
     end
   
-    #Cria Relacionamento(REL_TABLE NAUM VEM)
+    
+    
+    #Cria Relacionamento NxN
+    #
+    #== Entrada
+    #informa-se um array com as tabelas relacionadas e o nome da tabela interrelacional
+    #EX:
+    # create_relation_nxn_for(['users','groups'],'group_users')
+    # 
+    #== Saida
+    #
+    # Esse metodo seta automaticamente a variável de instância @relationship e
+    #a retorna.
+    #
     def create_relation_nxn_for(rel_tables,thr_table)
       my_tables = rel_tables
       rel_tables.each do |rtable|
@@ -222,10 +225,18 @@ module Getna
       @relationship
     end
     
+    
+    
+    #Seta informações sobre tabelas para serem usadas na View.
+    # Informa-se quais tabelas possuem relacionamento com a atual tabela.
+    #possibilitando assim a identificação de chaves estrangeiras nas Views
+    #
     def create_interface_nxn_for(rtables, thr_table)
       @interrel[thr_table]= rtables
       @interrel
     end
+    
+    
     #==  Fim Da Sessão De Identificação de Relacionamentos NxN  ====================#
     
     
