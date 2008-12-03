@@ -84,6 +84,21 @@ os dois exemplos
 
 e... pronto! dificil neh?
 
+== Limitando Tabelas
+
+Para excluir alguma tabela da geração utilize o arquivo ignore.yml, bastando 
+apenas inserir o nome da tabela na lista exemplo:
+
+---- ignore.yml --------
+
+schema_migrations
+menus
+rotas
+servicos
+contatos
+
+------------------------
+
 
 Agora vamos ao nosso gerador :)
 digite o seguinte comando em seu projeto Rails.

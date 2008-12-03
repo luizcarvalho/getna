@@ -10,7 +10,7 @@ module Getna
   class Base
 
     attr_reader :interrel, :table_names,:relationship, :validations, :table_id
-    $VERSION = "0.6.0"
+    $VERSION = "0.6.4"
 
 
     def initialize (env)
@@ -22,6 +22,7 @@ module Getna
      
       #Abre Arquivo de Configuração de banco de dados do Rails
       conf = YAML::load(File.open("#{RAILS_ROOT}/config/database.yml")) 
+      ignore_tables = File.open("vendor/plugins/getna/config/ignore.yml").collect { |e| e.chomp }
      
       if conf[env].nil?
         puts "#{red("\n\nErro de atributos: o Environment #{env} não  foi encontrado.")} \n"
@@ -46,11 +47,12 @@ module Getna
       
       
       $stdout.print("\nBuscando Tabelas: ")
+      @table_names = Array.new
       #Busca todos os nomes de tabelas daquele banco de dados
-      @table_names = @con.tables
+      @con.tables.each { |e| @table_names.push(e) if !ignore_tables.include?(e) }
+      
       $stdout.print("OK \n")
-      #Deletamos tabelas que não devem ser geradas(schema_migrations) 
-      @table_names.delete("schema_migrations")
+      #Deletamos tabelas que não devem ser geradas
       
       #Sessão Estatística
       ents = @table_names.size
@@ -80,7 +82,7 @@ module Getna
 
       #Iniciando identificação de relacionamentos
       has_many_through
-      has_many
+      has_many            
       create_validations
 
     end
@@ -263,6 +265,7 @@ module Getna
       rel_tables
       rel_tables.each do |rtable|        
         @relationship[table] << "has_many :#{rtable}" 
+        $stdout.print("\nrtable:#{rtable}\nrel_tables#{rel_tables} \n")
         @relationship[rtable].push("belongs_to :#{table.singularize}")
       end
       @relationship
