@@ -10,7 +10,7 @@ module Getna
   class Base
 
     attr_reader :interrel, :table_names,:relationship, :validations, :table_id
-    $VERSION = "0.6.4"
+    $VERSION = "0.6.5"
 
 
     def initialize (env)
@@ -144,7 +144,7 @@ module Getna
     def has_many_through
       @table_names.each do |table| 
         if (decomp_tables = decompounds(table))
-           #test(table)
+          #test(table)
           if  (tables_exist?(decomp_tables)) 
             if (has_nxn_keys?(decomp_tables, table))
               create_relation_nxn_for(decomp_tables,table)
@@ -264,9 +264,8 @@ module Getna
     def create_relation_nxone_for(table, rel_tables)
       rel_tables
       rel_tables.each do |rtable|        
-        @relationship[table] << "has_many :#{rtable}" 
-        $stdout.print("\nrtable:#{rtable}\nrel_tables#{rel_tables} \n")
-        @relationship[rtable].push("belongs_to :#{table.singularize}")
+        @relationship[rtable] << "has_many :#{table}"
+        @relationship[table].push("belongs_to :#{rtable.singularize}")
       end
       @relationship
     end  
@@ -320,20 +319,20 @@ module Getna
     
     
     
-#==============================  MIGRAÇÕES ==========================================
-#====================================================================================
-#attr_migrate = [{:name=>"idade",:typo=>"integer",:null=>false, limit=>2,:default=>false},{:name=>false, type=>"timestamps",:null=>false,:limit=>false,:default=false}]
-#
-#template do objeto
-#{:name=>false,:type=>false,:limit=>false, :null=>false, :default=>false}
-#
-# Cria-se duas Migrações Defaults
-#* References (para chaves estrangeiras- sufixo "_id")
-#{:name=>attr_name,:type=>references,:limit=>false, :null=>false, :default=>false}
-#
-#* Time Stamps (caso ache created_at e updated_at)
-#{:name=>false, type=>"timestamps",:null=>false,:limit=>false,:default=false}
-#    
+    #==============================  MIGRAÇÕES ==========================================
+    #====================================================================================
+    #attr_migrate = [{:name=>"idade",:typo=>"integer",:null=>false, limit=>2,:default=>false},{:name=>false, type=>"timestamps",:null=>false,:limit=>false,:default=false}]
+    #
+    #template do objeto
+    #{:name=>false,:type=>false,:limit=>false, :null=>false, :default=>false}
+    #
+    # Cria-se duas Migrações Defaults
+    #* References (para chaves estrangeiras- sufixo "_id")
+    #{:name=>attr_name,:type=>references,:limit=>false, :null=>false, :default=>false}
+    #
+    #* Time Stamps (caso ache created_at e updated_at)
+    #{:name=>false, type=>"timestamps",:null=>false,:limit=>false,:default=false}
+    #
     def to_migrate(table_name)
       attr_migrate = []
       #Exceções, são campos da tabela que não necessitam ser gerados
@@ -350,7 +349,7 @@ module Getna
             :limit=>(att.limit.nil? ? nil : att.limit.to_s),
             :null=>(att.null ? nil : "false"),
             :default=>(att.default.nil? ? nil : ((att.type.to_s == "boolean")? att.default : ( "\"#{att.default}\"")))
-         }) if !exceptions.include?(att.name) and !is_key?(att.name)
+          }) if !exceptions.include?(att.name) and !is_key?(att.name)
 
         if is_key?(att.name)
           attr_migrate.push({:name=>att.name.chomp('_id'),:type=>"references",:limit=>nil, :null=>nil, :default=>nil})
@@ -365,7 +364,7 @@ module Getna
       end
       
       
-    attr_migrate
+      attr_migrate
     end
     
     
@@ -484,7 +483,7 @@ module Getna
     end #END:: hash_options_for
 
     
-        # Meétodos Responsáveis pela colorização 
+    # Meétodos Responsáveis pela colorização
     def colorize(text, color_code)
       "#{color_code}#{text}\e[0m"
     end
