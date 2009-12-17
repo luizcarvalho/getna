@@ -17,16 +17,21 @@ uso de Templates.
 
 == Instalação
 
-Existem 2 maneiras fáceis de fazer isso, a primeira mais trivial:
+Existem 3 maneiras fáceis de fazer isso, a primeira mais trivial:
 Acesso: http://github.com/LuizCarvalho/getna e baixe esse plugin, colocando-o na pasta
     "vendor/plugins"
 Que então fica assim:
      "vendor/plugins/getna"
 
-A segunda maneira eh instalar o o git (http://git.or.cz/) e na pasta "vendor/plugins" digitar na 
-linha de comando:
+As outras 2 necessitam da instalação do git (http://git.or.cz/) 
 
-> git clone git://github.com/LuizCarvalho/getna.git
+a) Simplesmente digite na linha de comando
+
+     script/plugin install git://github.com/LuizCarvalho/getna.git
+
+b) Na pasta "vendor/plugins" digite via linha de comando:
+
+     > git clone git://github.com/LuizCarvalho/getna.git
 
 
 
