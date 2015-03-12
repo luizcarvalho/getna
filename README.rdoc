@@ -40,7 +40,7 @@ b) Na pasta "vendor/plugins" digite via linha de comando:
 Para que o gerador Funcione corretamente e necessario que o banco esteja totalmente padronizado
 de acordo com o Rails.
 
-*  Teblas no Plural
+*  Tabelas no Plural
 *  Nomes compostos de mais de uma palavra devem ser separados com underline (_), devem estar ordenadas  
 alfabeticamente com a ultma palavra no plural EX:     
        1. CERTO: grupo_usuarios
